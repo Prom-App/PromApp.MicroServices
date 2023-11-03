@@ -64,7 +64,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
         builder.Entity<Acreditacion>().ToTable("TipoAcreditacion");
         builder.Entity<Actividad>().ToTable("TipoActividad");
         builder.Entity<Agencia>().ToTable("Agencia");
-        builder.Entity<Aplicacion>().ToTable("Aplicacion");
+        builder.Entity<Aplicacion>().ToTable("TipoAplicacion");
         builder.Entity<Campus>().ToTable("Campus");
         builder.Entity<Carrera>().ToTable("Carrera");
         builder.Entity<CarreraRelacionada>().ToTable("CarreraRelacionada");
@@ -78,7 +78,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
         builder.Entity<Idioma>().ToTable("Idioma");
         builder.Entity<Pais>().ToTable("Pais");
         builder.Entity<Parentesco>().ToTable("Parentesco");
-        builder.Entity<Programa>().ToTable("Programa");
+        builder.Entity<Programa>().ToTable("TipoPrograma");
         builder.Entity<Universidad>().ToTable("Universidad");
         
         base.OnModelCreating(builder);
@@ -95,7 +95,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
         if (!optionsBuilder.IsConfigured)
         {
             optionsBuilder.UseSqlServer(
-                "Server=localhost;Database=dbFerFashion;User Id=sa;Password=Snider3901*;TrustServerCertificate=true;");
+                "Server=localhost;Database=dbPromApp;User Id=sa;Password=Snider3901*;TrustServerCertificate=true;");
         }
     }
 }
