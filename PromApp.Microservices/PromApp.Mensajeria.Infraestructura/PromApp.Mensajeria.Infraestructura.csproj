@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="SMS\" />
+      <Folder Include="WhatsApp\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PromApp.Mensajeria.Aplicacion\PromApp.Mensajeria.Aplicacion.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MailKit" Version="4.2.0" />
+      <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
+    </ItemGroup>
+
+</Project>

@@ -21,11 +21,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\PromAdmin.Core\PromAdmin.Core.csproj" />
       <ProjectReference Include="..\PromAdmin.Dominio\PromAdmin.Dominio.csproj" />
     </ItemGroup>
-
+    
     <ItemGroup>
-      <Folder Include="entities\" />
+      <Folder Include="Persistencia\Context\" />
     </ItemGroup>
 
 </Project>
