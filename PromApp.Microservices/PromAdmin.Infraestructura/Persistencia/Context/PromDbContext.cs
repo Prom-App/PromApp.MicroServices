@@ -18,7 +18,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var username = "System";
+        var username = "Sistema";
         foreach (var entry in ChangeTracker.Entries<EntidadBase>())
         {
             switch (entry.State)
