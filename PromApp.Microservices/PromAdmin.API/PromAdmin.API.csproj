@@ -20,11 +20,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
+      <ProjectReference Include="..\PromAdmin.Infraestructura\PromAdmin.Infraestructura.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PromAdmin.Infraestructura\PromAdmin.Infraestructura.csproj" />
+      <Folder Include="Controllers\" />
     </ItemGroup>
 
 </Project>
