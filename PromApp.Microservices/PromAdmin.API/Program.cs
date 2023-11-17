@@ -45,6 +45,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+await app.Services.InicializarBaseDatosAsync();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

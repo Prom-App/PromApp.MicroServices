@@ -747,7 +747,7 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                         column: x => x.IdUsuario,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Contacto_AspNetUsers_IdUsuarioContacto",
                         column: x => x.IdUsuarioContacto,

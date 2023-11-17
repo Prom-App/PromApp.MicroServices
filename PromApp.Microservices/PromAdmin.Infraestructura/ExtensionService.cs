@@ -98,7 +98,7 @@ public static class ExtensionService
     /// </summary>
     /// <param name="services">Colección de servicios para la solución</param>
     /// <param name="cancellationToken"></param>
-    public static async Task InitializeDatabaseAsync(this IServiceProvider services,
+    public static async Task InicializarBaseDatosAsync(this IServiceProvider services,
         CancellationToken cancellationToken = default)
     {
         using var scope = services.CreateScope();

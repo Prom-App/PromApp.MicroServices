@@ -133,7 +133,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
             e.HasOne(c => c.Parentesco).WithMany(p => p.Contactos)
                 .HasForeignKey(x => x.IdParentesco).OnDelete(DeleteBehavior.Cascade);
             e.HasOne(c => c.Usuario).WithMany()
-                .HasForeignKey(x => x.IdUsuario).OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(x => x.IdUsuario).OnDelete(DeleteBehavior.NoAction);
             e.HasOne(c => c.UsuarioContacto).WithMany()
                 .HasForeignKey(x => x.IdUsuarioContacto).OnDelete(DeleteBehavior.Cascade);
             e.HasIndex(x => new { x.IdUsuario, x.IdParentesco, x.Correo }).IsUnique();
