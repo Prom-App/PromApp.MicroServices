@@ -33,6 +33,8 @@ identityBuilder.AddEntityFrameworkStores<PromDbContext>();
 identityBuilder.AddSignInManager<SignInManager<Usuario>>();
 
 builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
+builder.Services.AddDataProtection();
+
 
 var app = builder.Build();
 

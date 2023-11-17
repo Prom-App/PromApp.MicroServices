@@ -1,6 +1,6 @@
 namespace PromAdmin.Dominio.Entidades;
 
-public class TipoActividadXUniversidad
+public class TipoActividadXCampus
 {
     public int IdTipoActividad { get; set; }
     public int IdCampus { get; set; }

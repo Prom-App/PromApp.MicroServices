@@ -80,8 +80,8 @@ public class PromDbContext : IdentityDbContext<Usuario>
         });
         builder.Entity<CaracteristicaXUniversidad>(e =>
         {
-            e.HasNoKey().ToTable("CaracteristicasXUniversidad");
-            e.HasIndex(x => new { x.IdCaracteristica, x.IdCampus }).IsUnique();
+            e.HasKey(x => new { x.IdCaracteristica, x.IdCampus });
+            e.ToTable("CaracteristicasXUniversidad");
             e.HasOne(d => d.Campus).WithMany()
                 .HasForeignKey(c => c.IdCampus).OnDelete(DeleteBehavior.Cascade);
             e.HasOne(d => d.Geografia).WithMany()
@@ -103,9 +103,9 @@ public class PromDbContext : IdentityDbContext<Usuario>
         });
         builder.Entity<CarreraXUniversidad>(e =>
         {
+            e.HasKey(x => new { x.IdUniversidad, x.IdCarrera });
             e.ToTable("CarreraXUniversidad");
             e.Property(x => x.Costo).HasColumnType("decimal(18, 2)");
-            e.HasIndex(x => new { x.IdUniversidad, x.IdCarrera }).IsUnique();
             e.HasOne(d => d.Carrera).WithMany(p => p.CarrerasXuniversidad)
                 .HasForeignKey(x => x.IdCarrera).OnDelete(DeleteBehavior.Cascade);
             e.HasOne(d => d.Universidad).WithMany(p => p.CarrerasXuniversidad)
@@ -132,9 +132,9 @@ public class PromDbContext : IdentityDbContext<Usuario>
             e.ToTable("Contacto");
             e.HasOne(c => c.Parentesco).WithMany(p => p.Contactos)
                 .HasForeignKey(x => x.IdParentesco).OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(c => c.Usuario).WithMany(p => p.Contactos)
+            e.HasOne(c => c.Usuario).WithMany()
                 .HasForeignKey(x => x.IdUsuario).OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(c => c.UsuarioContacto).WithMany(d => d.Contactos)
+            e.HasOne(c => c.UsuarioContacto).WithMany()
                 .HasForeignKey(x => x.IdUsuarioContacto).OnDelete(DeleteBehavior.Cascade);
             e.HasIndex(x => new { x.IdUsuario, x.IdParentesco, x.Correo }).IsUnique();
         });
@@ -151,6 +151,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
         builder.Entity<Idioma>().ToTable("Idioma").HasIndex(x => x.Lenguaje).IsUnique();
         builder.Entity<IdiomaXUniversidad>(e =>
         {
+            e.HasKey(x => new { x.IdUniversidad, x.IdIdioma });
             e.ToTable("IdiomaXUniversidad");
             e.HasOne(i => i.Idioma).WithMany()
                 .HasForeignKey(x => x.IdIdioma).OnDelete(DeleteBehavior.Cascade);
@@ -162,6 +163,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
         builder.Entity<Acreditacion>().ToTable("TipoAcreditacion").HasIndex(x => x.TipoAcreditacion).IsUnique();
         builder.Entity<TipoAcreditacionXColegio>(e =>
         {
+            e.HasKey(x => new { x.IdColegio, x.IdAcreditacion });
             e.ToTable("TipoAcreditacionXColegio");
             e.HasOne(d => d.TipoAcreditacion).WithMany()
                 .HasForeignKey(d => d.IdAcreditacion).OnDelete(DeleteBehavior.Cascade);
@@ -169,9 +171,10 @@ public class PromDbContext : IdentityDbContext<Usuario>
                 .HasForeignKey(d => d.IdColegio).OnDelete(DeleteBehavior.Cascade);
         });
         builder.Entity<Actividad>().ToTable("TipoActividad").HasIndex(x => x.TipoActividad).IsUnique();
-        builder.Entity<TipoActividadXUniversidad>(e =>
+        builder.Entity<TipoActividadXCampus>(e =>
         {
-            e.ToTable("TipoActividadXUniversidad");
+            e.HasKey(x => new { x.IdCampus, x.IdTipoActividad });
+            e.ToTable("TipoActividadXCampus");
             e.HasOne(d => d.Campus).WithMany()
                 .HasForeignKey(d => d.IdCampus).OnDelete(DeleteBehavior.Cascade);
             e.HasOne(d => d.TipoActividad).WithMany()
@@ -181,6 +184,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
         builder.Entity<Programa>().ToTable("TipoPrograma").HasIndex(x => x.TipoPrograma).IsUnique();
         builder.Entity<TipoProgramaXUniversidad>(e =>
         {
+            e.HasKey(x => new { x.IdTipoPrograma, x.IdUniversidad });
             e.ToTable("TipoProgramaXUniversidad");
             e.HasOne(d => d.TipoPrograma).WithMany()
                 .HasForeignKey(d => d.IdTipoPrograma).OnDelete(DeleteBehavior.Cascade);
@@ -222,7 +226,8 @@ public class PromDbContext : IdentityDbContext<Usuario>
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer("Name=ConnectionStrings:Default");
+            optionsBuilder.UseSqlServer(
+                "Server=localhost;Database=dbPromApp;User Id=sa;Password=Snider3901*;TrustServerCertificate=true;");
         }
     }
 }
