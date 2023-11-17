@@ -28,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromAdmin.API", "PromAdmin.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromAdmin.Dominio", "PromAdmin.Dominio\PromAdmin.Dominio.csproj", "{A999B68C-BED5-40A5-85F6-CD3D931A6047}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromAdmin.Core", "PromAdmin.Core\PromAdmin.Core.csproj", "{5A583466-7046-4B4A-B02E-3F0FBA364C0E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromAdmin.Aplicacion", "PromAdmin.Aplicacion\PromAdmin.Aplicacion.csproj", "{5A583466-7046-4B4A-B02E-3F0FBA364C0E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromAdmin.Infraestructura", "PromAdmin.Infraestructura\PromAdmin.Infraestructura.csproj", "{A6345D0F-815A-4C27-A03B-7F24DF4FF0A6}"
 EndProject

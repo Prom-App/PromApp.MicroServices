@@ -2,6 +2,8 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using PromAdmin.API.Middlewares;
+using PromAdmin.Core;
 using PromAdmin.Dominio.Entidades;
 using PromAdmin.Infraestructura;
 using PromAdmin.Infraestructura.Persistencia.Context;
@@ -9,15 +11,11 @@ using PromAdmin.Infraestructura.Persistencia.Context;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", false, true).Build();
 
 // Add services to the container.
 builder.Services.AgregarDependenciasInfra(configuration);
+builder.Services.AgregarDependenciasApp(configuration);
 
 
 builder.Services.AddControllers()
@@ -35,6 +33,7 @@ identityBuilder.AddSignInManager<SignInManager<Usuario>>();
 builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
 builder.Services.AddDataProtection();
 
+builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
@@ -48,6 +47,8 @@ if (app.Environment.IsDevelopment())
 await app.Services.InicializarBaseDatosAsync();
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthorization();
 
