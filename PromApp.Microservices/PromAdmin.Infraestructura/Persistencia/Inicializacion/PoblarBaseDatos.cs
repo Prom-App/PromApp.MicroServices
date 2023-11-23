@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using PromAdmin.Dominio.Entidades;
 using PromAdmin.Infraestructura.Persistencia.Context;
+using PromAdmin.Infraestructura.Persistencia.Inicializacion.Recursos;
 
 namespace PromAdmin.Infraestructura.Persistencia.Inicializacion;
 
@@ -19,6 +22,7 @@ public class PoblarBaseDatos
     public async Task SeedDatabaseAsync(UserManager<Usuario> userManager, RoleManager<IdentityRole> roleManager,
         CancellationToken cancellationToken)
     {
+        await PoblarCiudades(cancellationToken);
         await PoblarRolesAsync(roleManager, cancellationToken);
         await PoblarUsuariosAsync(userManager, cancellationToken);
     }
@@ -39,7 +43,7 @@ public class PoblarBaseDatos
         }
     }
 
-    private static async Task PoblarRolesAsync(RoleManager<IdentityRole> roleManager,
+    private async Task PoblarRolesAsync(RoleManager<IdentityRole> roleManager,
         CancellationToken cancellationToken)
     {
         if (!roleManager.Roles.Any())
@@ -49,6 +53,46 @@ public class PoblarBaseDatos
                 await roleManager.CreateAsync(new IdentityRole(item.ToString()!));
             }
         }
+    }
+
+    private async Task PoblarCiudades(CancellationToken cancellationToken)
+    {
+        var data = await File.ReadAllTextAsync("../Recursos/Mundo.json", cancellationToken);
+        var countries=JsonConvert.DeserializeObject<List<Country>>(data);
+        var paises = new List<Pais>();
+        countries!.ForEach(async c =>
+        {
+            var pais = new Pais()
+            {
+                Nombre = c.Name,
+                Iso2 = c.Iso2,
+                Iso3 = c.Iso3,
+                CodigoTelefonico = c.Phone_code,
+                Moneda = c.Currency
+            };
+            await _context.Paises!.AddAsync(pais, cancellationToken);
+            c.States.ForEach(async s =>
+            {
+                var departamento = new Departamento
+                {
+                    Nombre = s.Name,
+                    Iso3 = s.State_code,
+                    IdPais = pais.Id
+                };
+                await _context.Departamentos!.AddAsync(departamento, cancellationToken);
+                s.Cities.ForEach(async ct =>
+                {
+                    var ciudad = new Ciudad()
+                    {
+                        Nombre = ct.Name,
+                        IdDepartamento = departamento.Id
+                    };
+                    await _context.Ciudades!.AddAsync(ciudad, cancellationToken);
+                });
+            });
+            await _context.SaveChangesAsync(cancellationToken);
+        });
+        //todo: leer json mundo y serializar a los datos requeridos
     }
 
     // private async Task SeedCategories(CancellationToken cancellationToken)
