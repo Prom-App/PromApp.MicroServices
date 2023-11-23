@@ -21,10 +21,11 @@ public class AutenticacionService : IAutenticacionService
         _jwtSettings = jwtSettings.Value;
     }
 
-    public string GetSessionUser()
+    public async Task<string> ObtenerSesion()
     {
-        return _httpContextAccesor.HttpContext!.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!
-            .Value;
+        return await Task.FromResult(
+            _httpContextAccesor.HttpContext!.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!
+                .Value);
     }
 
     public Task<string> CrearToken(Usuario usuario, IList<string> roles)

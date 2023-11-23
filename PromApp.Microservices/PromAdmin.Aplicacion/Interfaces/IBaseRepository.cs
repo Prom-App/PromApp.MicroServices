@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using PromAdmin.Core.Specifications;
 
 namespace PromAdmin.Core.Interfaces;
 
@@ -42,4 +43,7 @@ public interface IBaseRepository<T> where T : class
     void AddRange(List<T> entities);
 
     void DeleteRange(IReadOnlyList<T> entities);
+    Task<T> GetByIdWithSpec(ISpecification<T> spec);
+    Task<IReadOnlyList<T>> GetAllWithSpec(ISpecification<T> spec);
+    Task<int> CountAsync(ISpecification<T> spec);
 }

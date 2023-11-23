@@ -35,6 +35,11 @@ builder.Services.AddDataProtection();
 
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -51,6 +56,7 @@ app.UseHttpsRedirection();
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthorization();
+app.UseCors("CorsPolicy");
 
 app.MapControllers();
 

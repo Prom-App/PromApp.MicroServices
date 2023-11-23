@@ -7,4 +7,5 @@ public class AutenticarUsuarioCommand : IRequest<AutenticarResponse>
 {
     public string? Email { get; set; }
     public string? Contrasena { get; set; }
+    //public string? TipoAutenticacion { get; set; }
 }

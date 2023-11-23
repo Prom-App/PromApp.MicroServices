@@ -6,6 +6,7 @@ public enum Roles
     Usuario,
     Tutor,
     Consejero,
+    Preparador,
     Administrador,
     SuperAdministrador
 }

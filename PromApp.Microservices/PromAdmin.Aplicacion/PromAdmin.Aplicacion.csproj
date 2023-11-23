@@ -8,11 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Componentes\Autenticacion\Usuarios\PaginacionUsuarios\" />
-      <Folder Include="Componentes\Autenticacion\Usuarios\Queries\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\PromAdmin.Dominio\PromAdmin.Dominio.csproj" />
     </ItemGroup>
 
