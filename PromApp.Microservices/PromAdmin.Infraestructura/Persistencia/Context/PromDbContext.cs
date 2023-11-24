@@ -61,10 +61,20 @@ public class PromDbContext : IdentityDbContext<Usuario>
     public virtual DbSet<Parentesco>? Parentescos { get; set; }
     public virtual DbSet<Programa>? TiposPrograma { get; set; }
     public virtual DbSet<Universidad>? Universidades { get; set; }
+    public virtual DbSet<Modulo>? Modulos { get; set; }
+    public virtual DbSet<Test>? Tests { get; set; }
+    public virtual DbSet<Seccion>? Seccion { get; set; }
+    public virtual DbSet<Pregunta>? Preguntas { get; set; }
+    public virtual DbSet<Respuesta>? Respuestas { get; set; }
+    public virtual DbSet<TipoPregunta>? TiposRespuesta { get; set; }
+    public virtual DbSet<Cualidad>? Cualidades { get; set; }
+    public virtual DbSet<Personalidad>? Personalidades { get; set; }
+    public virtual DbSet<CualidadXPersonalidad>? CualidadesXPersonalidad { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<Agencia>().ToTable("Agencia").HasIndex(x => x.Nombre).IsUnique();
+        builder.Entity<Modulo>().ToTable("Modulo").HasIndex(x => x.NombreModulo).IsUnique();
         builder.Entity<Campus>(e =>
         {
             e.ToTable("Campus");
@@ -77,6 +87,56 @@ public class PromDbContext : IdentityDbContext<Usuario>
 
             e.HasOne(d => d.Universidad).WithMany(p => p.Campus)
                 .HasForeignKey(d => d.IdUniversidad);
+        });
+        builder.Entity<Test>(e =>
+        {
+            e.ToTable("Test");
+            e.Property(x => x.NombreTest).HasMaxLength(255);
+            e.HasIndex(x => new { x.NombreTest, x.IdModulo }).IsUnique();
+            e.HasOne(d => d.Modulo).WithMany(p => p.Pruebas)
+                .HasForeignKey(d => d.IdModulo).OnDelete(DeleteBehavior.Cascade);
+        });
+        builder.Entity<Seccion>(e =>
+        {
+            e.ToTable("Seccion");
+            e.Property(x => x.NombreSeccion).HasMaxLength(255);
+            e.HasIndex(x => new { x.NombreSeccion, x.IdTest }).IsUnique();
+            e.HasOne(d => d.Test).WithMany(p => p.Secciones)
+                .HasForeignKey(d => d.IdTest).OnDelete(DeleteBehavior.Cascade);
+        });
+        builder.Entity<Pregunta>(e =>
+        {
+            e.ToTable("Pregunta");
+            e.HasIndex(x => new { x.Enunciado, x.IdTest }).IsUnique();
+            e.HasOne(d => d.Seccion).WithMany(p => p.Preguntas)
+                .HasForeignKey(d => d.IdSeccion).OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(d => d.Prueba).WithMany(p => p.Preguntas)
+                .HasForeignKey(d => d.IdTest).OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(d => d.TipoPregunta).WithMany(p => p.Preguntas)
+                .HasForeignKey(d => d.IdTipoPregunta).OnDelete(DeleteBehavior.Cascade);
+        });
+        builder.Entity<TipoPregunta>().ToTable("TipoPregunta").HasIndex(x => x.Tipo).IsUnique();
+        builder.Entity<Respuesta>(e =>
+        {
+            e.ToTable("Respuesta");
+            e.HasIndex(x => new { x.Enunciado, x.IdPregunta }).IsUnique();
+            e.HasOne(d => d.Pregunta).WithMany(p => p.Respuestas)
+                .HasForeignKey(d => d.IdPregunta).OnDelete(DeleteBehavior.Cascade);
+        });
+        builder.Entity<Cualidad>().ToTable("Cualidad").HasIndex(x => x.Caracteristica).IsUnique();
+        builder.Entity<Personalidad>(e =>
+        {
+            e.ToTable("Personalidad").HasIndex(x => x.Codigo).IsUnique();
+            e.HasIndex(x => x.Definicion).IsUnique();
+        });
+        builder.Entity<CualidadXPersonalidad>(e =>
+        {
+            e.HasKey(x => new { x.IdCualidad, x.IdPersonalidad });
+            e.ToTable("CualidadXPersonalidad");
+            e.HasOne(d => d.Cualidad).WithMany()
+                .HasForeignKey(c => c.IdCualidad).OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(d => d.Personalidad).WithMany()
+                .HasForeignKey(c => c.IdPersonalidad).OnDelete(DeleteBehavior.Cascade);
         });
         builder.Entity<CaracteristicaXUniversidad>(e =>
         {
