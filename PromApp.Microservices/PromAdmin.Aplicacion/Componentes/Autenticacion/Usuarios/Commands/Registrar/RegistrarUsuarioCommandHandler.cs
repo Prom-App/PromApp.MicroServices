@@ -37,7 +37,7 @@ public class RegistrarUsuarioCommandHandler : IRequestHandler<RegistrarUsuarioCo
 
         //todo: validar token de invitacion que tipo de asociación tiene para asignar el rol
 
-        await _userManager.AddToRoleAsync(usuario, Roles.Freemium.ToString());
+        await _userManager.AddToRoleAsync(usuario, ListaRoles.Freemium.ToString());
         var roles = await _userManager.GetRolesAsync(usuario);
         return new AutenticarResponse
         {

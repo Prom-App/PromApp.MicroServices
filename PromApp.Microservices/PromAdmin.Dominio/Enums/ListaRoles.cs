@@ -1,6 +1,6 @@
 namespace PromAdmin.Dominio.Entidades;
 
-public enum Roles
+public enum ListaRoles
 {
     Freemium,
     Usuario,

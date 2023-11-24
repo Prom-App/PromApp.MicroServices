@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PromAdmin.Infraestructura.Persistencia.Context;
 
@@ -11,9 +12,11 @@ using PromAdmin.Infraestructura.Persistencia.Context;
 namespace PromAdmin.Infraestructura.Persistencia.Migraciones
 {
     [DbContext(typeof(PromDbContext))]
-    partial class PromDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231117000256_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -461,9 +464,6 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Abreviatura")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CreadoPor")
                         .HasColumnType("nvarchar(max)");
 
@@ -479,6 +479,9 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                     b.Property<int>("IdDepartamento")
                         .HasColumnType("int");
 
+                    b.Property<string>("Iso2")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ModificadoPor")
                         .HasColumnType("nvarchar(max)");
 
@@ -486,8 +489,6 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdDemografia");
 
                     b.HasIndex("IdDepartamento");
 
@@ -651,7 +652,7 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                     b.Property<int>("IdPais")
                         .HasColumnType("int");
 
-                    b.Property<string>("Iso3")
+                    b.Property<string>("Iso2")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ModificadoPor")
@@ -789,9 +790,6 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CodigoTelefonico")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CreadoPor")
                         .HasColumnType("nvarchar(max)");
 
@@ -804,13 +802,7 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                     b.Property<string>("Iso2")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Iso3")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ModificadoPor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Moneda")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
@@ -1215,8 +1207,9 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                 {
                     b.HasOne("PromAdmin.Dominio.Entidades.Demografia", "Demografia")
                         .WithMany("Ciudades")
-                        .HasForeignKey("IdDemografia")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("IdDepartamento")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PromAdmin.Dominio.Entidades.Departamento", "Departamento")
                         .WithMany("Ciudades")
@@ -1250,7 +1243,7 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                     b.HasOne("PromAdmin.Dominio.Entidades.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("IdUsuario")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PromAdmin.Dominio.Entidades.Usuario", "UsuarioContacto")

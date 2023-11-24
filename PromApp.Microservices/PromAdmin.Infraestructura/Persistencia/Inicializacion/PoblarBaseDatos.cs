@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using PromAdmin.Core.Interfaces;
 using PromAdmin.Dominio.Entidades;
 using PromAdmin.Infraestructura.Persistencia.Context;
 using PromAdmin.Infraestructura.Persistencia.Inicializacion.Recursos;
@@ -12,11 +14,13 @@ public class PoblarBaseDatos
 {
     private readonly IConfiguration _configuration;
     private readonly PromDbContext _context;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public PoblarBaseDatos(IConfiguration configuration, PromDbContext context)
+    public PoblarBaseDatos(IConfiguration configuration, PromDbContext context, IUnitOfWork unitOfWork)
     {
         _configuration = configuration;
         _context = context;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task SeedDatabaseAsync(UserManager<Usuario> userManager, RoleManager<IdentityRole> roleManager,
@@ -39,7 +43,7 @@ public class PoblarBaseDatos
                 Telefono = _configuration["Seeds:FirstUser:Phone"],
             };
             await userManager.CreateAsync(user, _configuration["Seeds:FirstUser:Password"]!);
-            await userManager.AddToRoleAsync(user!, Roles.SuperAdministrador.ToString());
+            await userManager.AddToRoleAsync(user!, ListaRoles.SuperAdministrador.ToString());
         }
     }
 
@@ -48,7 +52,7 @@ public class PoblarBaseDatos
     {
         if (!roleManager.Roles.Any())
         {
-            foreach (var item in Enum.GetValues(typeof(Roles)))
+            foreach (var item in Enum.GetValues(typeof(ListaRoles)))
             {
                 await roleManager.CreateAsync(new IdentityRole(item.ToString()!));
             }
@@ -57,40 +61,65 @@ public class PoblarBaseDatos
 
     private async Task PoblarCiudades(CancellationToken cancellationToken)
     {
-        var data = await File.ReadAllTextAsync("../Recursos/Mundo.json", cancellationToken);
-        var countries=JsonConvert.DeserializeObject<List<Country>>(data);
+        var data = await File.ReadAllTextAsync(
+            "../PromAdmin.Infraestructura/Persistencia/Inicializacion/Recursos/Mundo.json", cancellationToken);
+        var countries = JsonConvert.DeserializeObject<List<Country>>(data);
         var paises = new List<Pais>();
-        countries!.ForEach(async c =>
+        countries!.ForEach(c =>
         {
-            var pais = new Pais()
+            var pais = _context.Paises!.FirstOrDefault(x => x.Nombre == c.Name)!;
+            if (pais is null)
             {
-                Nombre = c.Name,
-                Iso2 = c.Iso2,
-                Iso3 = c.Iso3,
-                CodigoTelefonico = c.Phone_code,
-                Moneda = c.Currency
-            };
-            await _context.Paises!.AddAsync(pais, cancellationToken);
-            c.States.ForEach(async s =>
-            {
-                var departamento = new Departamento
+                pais = new Pais()
                 {
-                    Nombre = s.Name,
-                    Iso3 = s.State_code,
-                    IdPais = pais.Id
+                    Nombre = c.Name,
+                    Iso2 = c.Iso2,
+                    Iso3 = c.Iso3,
+                    CodigoTelefonico = c.Phone_code,
+                    Moneda = c.Currency
                 };
-                await _context.Departamentos!.AddAsync(departamento, cancellationToken);
-                s.Cities.ForEach(async ct =>
+                _context.Paises!.Add(pais);
+                _context.SaveChanges();
+                pais = _context.Paises!.FirstOrDefault(x => x.Nombre == c.Name)!;
+            }
+
+            var idPais = pais.Id;
+            c.States.ForEach(s =>
+            {
+                var departamento = _context.Departamentos!.FirstOrDefault(
+                    x => x.Nombre == s.Name && x.IdPais == idPais)!;
+                if (departamento is null)
                 {
-                    var ciudad = new Ciudad()
+                    departamento = new Departamento
                     {
-                        Nombre = ct.Name,
-                        IdDepartamento = departamento.Id
+                        Nombre = s.Name,
+                        Iso3 = s.State_code,
+                        IdPais = idPais
                     };
-                    await _context.Ciudades!.AddAsync(ciudad, cancellationToken);
+                    _context.Departamentos!.Add(departamento);
+                    _context.SaveChanges();
+                    departamento = _context.Departamentos!.FirstOrDefault(
+                        x => x.Nombre == s.Name && x.IdPais == pais!.Id)!;
+                }
+
+                var idDep = departamento.Id;
+                s.Cities.ForEach(ct =>
+                {
+                    var ciudad = _context.Ciudades!.FirstOrDefault(
+                        x => x.Nombre == ct.Name && x.IdDepartamento == idDep);
+                    if (ciudad is not null) return;
+                    {
+                        ciudad = new Ciudad()
+                        {
+                            Nombre = ct.Name,
+                            Abreviatura = ct.Name.Length > 2 ? ct.Name.Substring(0, 3).ToUpper() : ct.Name.ToUpper(),
+                            IdDepartamento = idDep
+                        };
+                        _context.Ciudades!.Add(ciudad);
+                        _context.SaveChanges();
+                    }
                 });
             });
-            await _context.SaveChangesAsync(cancellationToken);
         });
         //todo: leer json mundo y serializar a los datos requeridos
     }

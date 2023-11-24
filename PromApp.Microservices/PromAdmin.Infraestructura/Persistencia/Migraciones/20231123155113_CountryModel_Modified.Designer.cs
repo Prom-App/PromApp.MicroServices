@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PromAdmin.Infraestructura.Persistencia.Context;
 
@@ -11,9 +12,11 @@ using PromAdmin.Infraestructura.Persistencia.Context;
 namespace PromAdmin.Infraestructura.Persistencia.Migraciones
 {
     [DbContext(typeof(PromDbContext))]
-    partial class PromDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231123155113_CountryModel_Modified")]
+    partial class CountryModel_Modified
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -486,8 +489,6 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdDemografia");
 
                     b.HasIndex("IdDepartamento");
 
@@ -1215,8 +1216,9 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                 {
                     b.HasOne("PromAdmin.Dominio.Entidades.Demografia", "Demografia")
                         .WithMany("Ciudades")
-                        .HasForeignKey("IdDemografia")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("IdDepartamento")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PromAdmin.Dominio.Entidades.Departamento", "Departamento")
                         .WithMany("Ciudades")

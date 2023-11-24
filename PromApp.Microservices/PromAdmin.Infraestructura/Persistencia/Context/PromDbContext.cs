@@ -116,7 +116,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
             e.ToTable("Ciudad");
             e.HasIndex(x => new { x.Nombre, x.IdDepartamento }).IsUnique();
             e.HasOne(c => c.Demografia).WithMany(d => d.Ciudades)
-                .HasForeignKey(c => c.IdDepartamento).OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(c => c.IdDemografia).OnDelete(DeleteBehavior.Cascade);
             e.HasOne(c => c.Departamento).WithMany(d => d.Ciudades)
                 .HasForeignKey(x => x.IdDepartamento).IsRequired().OnDelete(DeleteBehavior.Cascade);
         });

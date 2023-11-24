@@ -60,14 +60,14 @@ public class UsuarioController : ControllerBase
         return Ok(await _mediator.Send(request));
     }
 
-    [Authorize(Roles = nameof(Roles.Administrador))]
+    [Authorize(Roles = nameof(ListaRoles.Administrador))]
     [HttpPut("actualizarUsuarioAdmin", Name = "actualizarUsuarioAdmin")]
     public async Task<IActionResult> ActualizarUsuarioAdmin([FromBody] ActualizarUsuarioAdminCommand request)
     {
         return Ok(await _mediator.Send(request));
     }
 
-    [Authorize(Roles = nameof(Roles.Administrador))]
+    [Authorize(Roles = nameof(ListaRoles.Administrador))]
     [HttpPut("actualizarUsuarioEstadoAdmin", Name = "ActualizarUsuarioEstadoAdmin")]
     public async Task<IActionResult> ActualizarUsuarioEstadoAdmin(
         [FromBody] ActualizarUsuarioEstadoAdminCommandHandler request)
@@ -75,7 +75,7 @@ public class UsuarioController : ControllerBase
         return Ok(await _mediator.Send(request));
     }
 
-    [Authorize(Roles = nameof(Roles.Administrador))]
+    [Authorize(Roles = nameof(ListaRoles.Administrador))]
     [HttpGet("{id}", Name = "UsuarioPorId")]
     public async Task<IActionResult> UsuarioPorId(string id)
     {
@@ -83,7 +83,7 @@ public class UsuarioController : ControllerBase
         return Ok(await _mediator.Send(query));
     }
 
-    [Authorize(Roles = nameof(Roles.Administrador))]
+    [Authorize(Roles = nameof(ListaRoles.Administrador))]
     [HttpGet("usuarios", Name = "PaginationUser")]
     public async Task<IActionResult> PaginationUser([FromQuery] PaginacionUsuariosQuery query)
     {
