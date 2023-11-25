@@ -111,7 +111,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
             e.HasOne(d => d.Seccion).WithMany(p => p.Preguntas)
                 .HasForeignKey(d => d.IdSeccion).OnDelete(DeleteBehavior.Cascade);
             e.HasOne(d => d.Prueba).WithMany(p => p.Preguntas)
-                .HasForeignKey(d => d.IdTest).OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(d => d.IdTest).OnDelete(DeleteBehavior.NoAction);
             e.HasOne(d => d.TipoPregunta).WithMany(p => p.Preguntas)
                 .HasForeignKey(d => d.IdTipoPregunta).OnDelete(DeleteBehavior.Cascade);
         });
