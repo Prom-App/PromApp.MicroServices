@@ -4,7 +4,7 @@ using PromAdmin.Core.Interfaces;
 using PromAdmin.Core.Specifications.Usuarios;
 using PromAdmin.Dominio.Entidades;
 
-namespace PromAdmin.Core.Componentes.Usuarios.PaginacionUsuarios;
+namespace PromAdmin.Core.Componentes.Usuarios.Queries.PaginacionUsuarios;
 
 public class PaginacionUsuariosQueryHandler : IRequestHandler<PaginacionUsuariosQuery, PaginacionDto<Usuario>>
 {

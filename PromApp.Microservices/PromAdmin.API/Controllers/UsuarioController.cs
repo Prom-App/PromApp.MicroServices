@@ -9,7 +9,7 @@ using PromAdmin.Core.Componentes.Roles.Queries.ListarRoles;
 using PromAdmin.Core.Componentes.Usuarios.Commands.ActualizarUsuario;
 using PromAdmin.Core.Componentes.Usuarios.Commands.ActualizarUsuarioAdmin;
 using PromAdmin.Core.Componentes.Usuarios.Commands.ActualizarUsuarioEstadoAdmin;
-using PromAdmin.Core.Componentes.Usuarios.PaginacionUsuarios;
+using PromAdmin.Core.Componentes.Usuarios.Queries.PaginacionUsuarios;
 using PromAdmin.Core.Componentes.Usuarios.Queries.UsuarioPorId;
 using PromAdmin.Dominio.Entidades;
 

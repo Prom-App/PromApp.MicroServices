@@ -1,4 +1,4 @@
-namespace PromAdmin.Core.Models.Token;
+namespace PromAdmin.Core.Modelos.Token;
 
 public class JwtSettings
 {

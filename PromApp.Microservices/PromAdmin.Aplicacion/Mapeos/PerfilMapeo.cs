@@ -1,4 +1,6 @@
 using AutoMapper;
+using PromAdmin.Core.Componentes.Ciudades.Commands.ActualizarCiudad;
+using PromAdmin.Core.Componentes.Ciudades.Commands.CrearCiudad;
 using PromAdmin.Core.Componentes.Ciudades.Dtos;
 using PromAdmin.Core.Componentes.Colegios.Dtos;
 using PromAdmin.Core.Componentes.Generos.Dtos;
@@ -10,8 +12,11 @@ public class PerfilMapeo : Profile
 {
     public PerfilMapeo()
     {
-        CreateMap<Ciudad, CiudadResponse>();
         CreateMap<Colegio, ColegioResponse>();
         CreateMap<Genero, GeneroResponse>();
+
+        CreateMap<Ciudad, CiudadResponse>();
+        CreateMap<CrearCiudadCommand, Ciudad>();
+        CreateMap<ActualizarCiudadCommand, Ciudad>();
     }
 }

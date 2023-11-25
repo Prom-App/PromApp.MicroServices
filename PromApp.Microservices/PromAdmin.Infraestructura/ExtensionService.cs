@@ -9,7 +9,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using PromAdmin.Core.Interfaces;
 using PromAdmin.Core.Interfaces.Seguridad;
-using PromAdmin.Core.Models.Token;
+using PromAdmin.Core.Modelos.Token;
 using PromAdmin.Infraestructura.Compartido.Utilidades;
 using PromAdmin.Infraestructura.Persistencia.Context;
 using PromAdmin.Infraestructura.Persistencia.Inicializacion;

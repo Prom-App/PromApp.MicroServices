@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PromAdmin.Core.Interfaces.Seguridad;
-using PromAdmin.Core.Models.Token;
+using PromAdmin.Core.Modelos.Token;
 using PromAdmin.Dominio.Entidades;
 
 namespace PromAdmin.Infraestructura.Servicios.Seguridad;
