@@ -30,9 +30,9 @@ public class ListarCiudadesQueryHandler : IRequestHandler<ListarCiudadesQuery, I
             x => x.Demografia!
         };
 
-        var products = await _unitOfWork.Repository<Ciudad>()
+        var ciudades = await _unitOfWork.Repository<Ciudad>()
             .GetAsync(null, x => x.OrderBy(y => y.Nombre), includes);
 
-        return _mapper.Map<IReadOnlyList<CiudadResponse>>(products);
+        return _mapper.Map<IReadOnlyList<CiudadResponse>>(ciudades);
     }
 }

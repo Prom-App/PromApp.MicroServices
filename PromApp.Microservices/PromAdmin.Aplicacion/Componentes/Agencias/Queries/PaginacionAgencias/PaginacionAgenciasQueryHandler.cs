@@ -1,28 +1,30 @@
 using AutoMapper;
 using MediatR;
+using PromAdmin.Core.Componentes.Agencias.Dtos;
 using PromAdmin.Core.Componentes.Ciudades.Dtos;
 using PromAdmin.Core.Componentes.Compartidos.Dtos;
 using PromAdmin.Core.Interfaces;
+using PromAdmin.Core.Specifications.Agencias;
 using PromAdmin.Core.Specifications.Ciudades;
 using PromAdmin.Dominio.Entidades;
 
-namespace PromAdmin.Core.Componentes.Ciudades.Queries.PaginacionCiudades;
+namespace PromAdmin.Core.Componentes.Agencias.Queries.PaginacionAgencias;
 
-public class PaginacionCiudadesQueryHandler : IRequestHandler<PaginacionCiudadesQuery, PaginacionDto<CiudadResponse>>
+public class PaginacionAgenciasQueryHandler : IRequestHandler<PaginacionAgenciasQuery, PaginacionDto<AgenciaResponse>>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public PaginacionCiudadesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    public PaginacionAgenciasQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
 
-    public async Task<PaginacionDto<CiudadResponse>> Handle(PaginacionCiudadesQuery request,
+    public async Task<PaginacionDto<AgenciaResponse>> Handle(PaginacionAgenciasQuery request,
         CancellationToken cancellationToken)
     {
-        var ciudadSpecificationParams = new CiudadSpecificationParams
+        var agenciaSpecificationParams = new AgenciaSpecificationParams
         {
             PageIndex = request.PageIndex,
             PageSize = request.PageSize,
@@ -30,19 +32,19 @@ public class PaginacionCiudadesQueryHandler : IRequestHandler<PaginacionCiudades
             Sort = request.Sort
         };
 
-        var spec = new CiudadSpecification(ciudadSpecificationParams);
-        var ciudades = await _unitOfWork.Repository<Ciudad>().GetAllWithSpec(spec);
+        var spec = new AgenciaSpecification(agenciaSpecificationParams);
+        var agencias = await _unitOfWork.Repository<Agencia>().GetAllWithSpec(spec);
 
-        var specCount = new CiudadForCountingSpecification(ciudadSpecificationParams);
-        var totalProducts = await _unitOfWork.Repository<Ciudad>().CountAsync(specCount);
+        var specCount = new AgenciaForCountingSpecification(agenciaSpecificationParams);
+        var totalProducts = await _unitOfWork.Repository<Agencia>().CountAsync(specCount);
 
         var rounded = Math.Ceiling(Convert.ToDecimal(totalProducts) / Convert.ToDecimal(request.PageSize));
         var totalPages = Convert.ToInt32(rounded);
 
-        var data = _mapper.Map<IReadOnlyList<CiudadResponse>>(ciudades);
+        var data = _mapper.Map<IReadOnlyList<AgenciaResponse>>(agencias);
         var elementsByPage = data.Count;
 
-        var pagination = new PaginacionDto<CiudadResponse>()
+        var pagination = new PaginacionDto<AgenciaResponse>()
         {
             Count = totalProducts,
             Data = data,

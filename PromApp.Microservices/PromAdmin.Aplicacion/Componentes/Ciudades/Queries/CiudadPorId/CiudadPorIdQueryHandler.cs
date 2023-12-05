@@ -29,8 +29,8 @@ public class CiudadPorIdQueryHandler : IRequestHandler<CiudadPorIdQuery, CiudadR
             x => x.Demografia!
         };
 
-        var product = await _unitOfWork.Repository<Ciudad>().GetEntityAsync(x => x.Id == request.IdCiudad, includes);
+        var ciudad = await _unitOfWork.Repository<Ciudad>().GetEntityAsync(x => x.Id == request.IdCiudad, includes);
 
-        return _mapper.Map<CiudadResponse>(product);
+        return _mapper.Map<CiudadResponse>(ciudad);
     }
 }

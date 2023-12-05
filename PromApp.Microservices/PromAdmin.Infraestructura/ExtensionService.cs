@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using PromAdmin.Core.Interfaces;
 using PromAdmin.Core.Interfaces.Seguridad;
+using PromAdmin.Core.Modelos.ExternalApis;
 using PromAdmin.Core.Modelos.Token;
 using PromAdmin.Infraestructura.Compartido.Utilidades;
 using PromAdmin.Infraestructura.Persistencia.Context;
@@ -32,6 +33,7 @@ public static class ExtensionService
         services.AddTransient<IUnitOfWork, UnitOfWork>();
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+        services.Configure<GoogleSettings>(configuration.GetSection("GoogleSettings"));
         // services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
         return services;

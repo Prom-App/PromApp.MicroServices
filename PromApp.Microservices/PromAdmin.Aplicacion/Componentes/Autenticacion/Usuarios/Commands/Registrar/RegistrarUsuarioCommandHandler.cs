@@ -35,9 +35,21 @@ public class RegistrarUsuarioCommandHandler : IRequestHandler<RegistrarUsuarioCo
 
         if (!result.Succeeded) throw new Exception("No fue posible registrar el usuario");
 
-        //todo: validar token de invitacion que tipo de asociación tiene para asignar el rol
+        string rolInicial;
+        if (request.Email!.Contains("@promapp.ai"))
+            rolInicial = ListaRoles.Administrador.ToString();
+        else
+        {
+            rolInicial = request.Token!.ToUpper() switch
+            {
+                "FAMILIAR" => ListaRoles.Tutor.ToString(),
+                "PREPARADOR" => ListaRoles.Preparador.ToString(),
+                "CONSEJERO" => ListaRoles.Consejero.ToString(),
+                _ => ListaRoles.Freemium.ToString()
+            };
+        }
 
-        await _userManager.AddToRoleAsync(usuario, ListaRoles.Freemium.ToString());
+        await _userManager.AddToRoleAsync(usuario, rolInicial);
         var roles = await _userManager.GetRolesAsync(usuario);
         return new AutenticarResponse
         {

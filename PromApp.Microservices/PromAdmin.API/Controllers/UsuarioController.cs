@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PromAdmin.Core.Componentes.Autenticacion.Usuarios.Commands.Autenticar;
+using PromAdmin.Core.Componentes.Autenticacion.Usuarios.Commands.AutenticarGoogle;
 using PromAdmin.Core.Componentes.Autenticacion.Usuarios.Commands.EnviarRestablecimiento;
 using PromAdmin.Core.Componentes.Autenticacion.Usuarios.Commands.Registrar;
 using PromAdmin.Core.Componentes.Autenticacion.Usuarios.Commands.RestablecerContrasena;
@@ -29,6 +30,13 @@ public class UsuarioController : ControllerBase
     [AllowAnonymous]
     [HttpPost("autenticar", Name = "Autenticar")]
     public async Task<IActionResult> Autenticar(AutenticarUsuarioCommand request)
+    {
+        return Ok(await _mediator.Send(request));
+    }
+    
+    [AllowAnonymous]
+    [HttpPost("autenticarGoogle", Name = "AutenticarGoogle")]
+    public async Task<IActionResult> AutenticarGoogle(AutenticarGoogleCommand request)
     {
         return Ok(await _mediator.Send(request));
     }
@@ -84,8 +92,8 @@ public class UsuarioController : ControllerBase
     }
 
     [Authorize(Roles = nameof(ListaRoles.Administrador))]
-    [HttpGet("usuarios", Name = "PaginationUser")]
-    public async Task<IActionResult> PaginationUser([FromQuery] PaginacionUsuariosQuery query)
+    [HttpGet("usuarios", Name = "PaginacionUsuarios")]
+    public async Task<IActionResult> paginacionUsuarios([FromQuery] PaginacionUsuariosQuery query)
     {
         return Ok(await _mediator.Send(query));
     }

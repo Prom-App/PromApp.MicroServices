@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using PromAdmin.Core.Interfaces;
@@ -26,8 +24,8 @@ public class PoblarBaseDatos
     public async Task SeedDatabaseAsync(UserManager<Usuario> userManager, RoleManager<IdentityRole> roleManager,
         CancellationToken cancellationToken)
     {
-        await PoblarCiudades(cancellationToken);
-        await PoblarRolesAsync(roleManager, cancellationToken);
+        //await PoblarCiudades(cancellationToken);
+        //await PoblarRolesAsync(roleManager, cancellationToken);
         await PoblarUsuariosAsync(userManager, cancellationToken);
     }
 
@@ -75,7 +73,7 @@ public class PoblarBaseDatos
                     Nombre = c.Name,
                     Iso2 = c.Iso2,
                     Iso3 = c.Iso3,
-                    CodigoTelefonico = c.Phone_code,
+                    CodigoTelefonico = c.PhoneCode,
                     Moneda = c.Currency
                 };
                 _context.Paises!.Add(pais);
@@ -84,7 +82,7 @@ public class PoblarBaseDatos
             }
 
             var idPais = pais.Id;
-            c.States.ForEach(s =>
+            c.States!.ForEach(s =>
             {
                 var departamento = _context.Departamentos!.FirstOrDefault(
                     x => x.Nombre == s.Name && x.IdPais == idPais)!;
@@ -93,7 +91,7 @@ public class PoblarBaseDatos
                     departamento = new Departamento
                     {
                         Nombre = s.Name,
-                        Iso3 = s.State_code,
+                        Iso3 = s.StateCode,
                         IdPais = idPais
                     };
                     _context.Departamentos!.Add(departamento);
@@ -103,7 +101,7 @@ public class PoblarBaseDatos
                 }
 
                 var idDep = departamento.Id;
-                s.Cities.ForEach(ct =>
+                s.Cities!.ForEach(ct =>
                 {
                     var ciudad = _context.Ciudades!.FirstOrDefault(
                         x => x.Nombre == ct.Name && x.IdDepartamento == idDep);
@@ -112,7 +110,7 @@ public class PoblarBaseDatos
                         ciudad = new Ciudad()
                         {
                             Nombre = ct.Name,
-                            Abreviatura = ct.Name.Length > 2 ? ct.Name.Substring(0, 3).ToUpper() : ct.Name.ToUpper(),
+                            Abreviatura = ct.Name!.Length > 2 ? ct.Name.Substring(0, 3).ToUpper() : ct.Name.ToUpper(),
                             IdDepartamento = idDep
                         };
                         _context.Ciudades!.Add(ciudad);
