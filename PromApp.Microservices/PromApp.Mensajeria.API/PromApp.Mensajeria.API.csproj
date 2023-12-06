@@ -12,7 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\PromApp.Mensajeria.Aplicacion\PromApp.Mensajeria.Aplicacion.csproj" />
       <ProjectReference Include="..\PromApp.Mensajeria.Dominio\PromApp.Mensajeria.Dominio.csproj" />
+      <ProjectReference Include="..\PromApp.Mensajeria.Infraestructura\PromApp.Mensajeria.Infraestructura.csproj" />
     </ItemGroup>
 
 </Project>
