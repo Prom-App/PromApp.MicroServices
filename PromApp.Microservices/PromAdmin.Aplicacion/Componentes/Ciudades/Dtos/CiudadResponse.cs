@@ -8,6 +8,7 @@ namespace PromAdmin.Core.Componentes.Ciudades.Dtos;
 
 public class CiudadResponse
 {
+    public int Id { get; set; }
     public string? Nombre { get; set; }
     public string? Abreviatura { get; set; }
     public virtual DepartamentoResponse? Departamento { get; set; }

@@ -27,4 +27,11 @@
       </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Componentes\Nacionalidades\Commands\ActualizarNacionalidad\" />
+      <Folder Include="Componentes\Nacionalidades\Queries\NacionalidadPorId\" />
+      <Folder Include="Componentes\Nacionalidades\Queries\PaginacionNacionalidades\" />
+      <Folder Include="Componentes\Paises\Commands\" />
+    </ItemGroup>
+
 </Project>

@@ -5,5 +5,7 @@ namespace PromAdmin.Dominio.Entidades;
 public class Nacionalidad : EntidadBase
 {
     public string? Descripcion { get; set; }
-    public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
+    public int IdPais { get; set; }
+    public virtual Pais? Pais { get; set; }
+    public virtual ICollection<Usuario>? Usuarios { get; set; } = new List<Usuario>();
 }

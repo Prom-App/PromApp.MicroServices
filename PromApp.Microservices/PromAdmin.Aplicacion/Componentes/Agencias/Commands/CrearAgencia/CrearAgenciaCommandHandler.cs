@@ -1,12 +1,10 @@
 using AutoMapper;
 using MediatR;
-using PromAdmin.Core.Componentes.Agencias.Commands.CrearAgencia;
 using PromAdmin.Core.Componentes.Agencias.Dtos;
-using PromAdmin.Core.Componentes.Ciudades.Dtos;
 using PromAdmin.Core.Interfaces;
 using PromAdmin.Dominio.Entidades;
 
-namespace PromAdmin.Core.Componentes.Ciudades.Commands.CrearCiudad;
+namespace PromAdmin.Core.Componentes.Agencias.Commands.CrearAgencia;
 
 public class CrearAgenciaCommandHandler : IRequestHandler<CrearAgenciaCommand, AgenciaResponse>
 {

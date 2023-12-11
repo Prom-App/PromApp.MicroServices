@@ -11,4 +11,5 @@ public class Pais : EntidadBase
     public string? Moneda { get; set; }
     public virtual ICollection<Departamento> Departamentos { get; set; } = new List<Departamento>();
     public virtual ICollection<Universidad> Universidades { get; set; } = new List<Universidad>();
+    public virtual Nacionalidad? Nacionalidad { get; set; }
 }

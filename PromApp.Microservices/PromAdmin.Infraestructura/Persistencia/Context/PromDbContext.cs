@@ -42,6 +42,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
     public virtual DbSet<Acreditacion>? TiposAcreditacion { get; set; }
     public virtual DbSet<Actividad>? Actividades { get; set; }
     public virtual DbSet<Agencia>? Agencias { get; set; }
+    public virtual DbSet<Avatar>? Avatares { get; set; }
     public virtual DbSet<Aplicacion>? TiposAplicacion { get; set; }
     public virtual DbSet<Campus>? Sedes { get; set; }
     public virtual DbSet<CaracteristicaXUniversidad> CaracteristicasXUniversidad { get; set; }
@@ -75,6 +76,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<Agencia>().ToTable("Agencia").HasIndex(x => x.Nombre).IsUnique();
+        builder.Entity<Avatar>().ToTable("Avatar").HasIndex(x => x.Nombre).IsUnique();
         builder.Entity<Modulo>().ToTable("Modulo").HasIndex(x => x.NombreModulo).IsUnique();
         builder.Entity<Campus>(e =>
         {
@@ -208,7 +210,12 @@ public class PromDbContext : IdentityDbContext<Usuario>
             e.HasIndex(x => new { x.IdPais, x.Nombre });
         });
         builder.Entity<Genero>().ToTable("Genero").HasIndex(x => x.TipoGenero).IsUnique();
-        builder.Entity<Nacionalidad>().ToTable("Nacionalidad").HasIndex(x => x.Descripcion).IsUnique();
+
+        builder.Entity<Nacionalidad>(e =>
+        {
+            e.ToTable("Nacionalidad").HasIndex(x => x.Descripcion).IsUnique();
+            e.HasOne(x => x.Pais).WithOne(x => x.Nacionalidad).HasForeignKey<Nacionalidad>(x => x.IdPais);
+        });
         builder.Entity<Geografia>().ToTable("Geografia").HasIndex(x => x.Caracteristica).IsUnique();
         builder.Entity<Idioma>().ToTable("Idioma").HasIndex(x => x.Lenguaje).IsUnique();
         builder.Entity<IdiomaXUniversidad>(e =>
@@ -274,7 +281,8 @@ public class PromDbContext : IdentityDbContext<Usuario>
                 .HasForeignKey(x => x.IdColegio);
             e.HasOne(u => u.Genero).WithMany(c => c.Usuarios)
                 .HasForeignKey(x => x.IdGenero);
-            e.HasOne(u => u.Nacionalidad).WithMany()
+            e.HasOne(x => x.Avatar).WithMany(c => c.Usuarios).HasForeignKey(x => x.IdAvatar);
+            e.HasOne(u => u.Nacionalidad).WithMany(x => x.Usuarios)
                 .HasForeignKey(x => x.IdNacionalidad).OnDelete(DeleteBehavior.Cascade);
             e.HasOne(u => u.Nacionalidad2).WithMany()
                 .HasForeignKey(x => x.IdNacionalidad2).OnDelete(DeleteBehavior.NoAction);

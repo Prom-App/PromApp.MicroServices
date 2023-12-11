@@ -14,7 +14,9 @@ public class Usuario : IdentityUser
     public int? IdGenero { get; set; }
     public int? IdNacionalidad { get; set; }
     public int? IdNacionalidad2 { get; set; }
-    public virtual ICollection<Contacto> Contactos { get; set; } = new List<Contacto>();
+    public int? IdAvatar { get; set; }
+    public virtual Avatar? Avatar { get; set; }
+    public virtual ICollection<Contacto>? Contactos { get; set; }
     public virtual Ciudad? Ciudad { get; set; }
     public virtual Colegio? Colegio { get; set; }
     public virtual Genero? Genero { get; set; }
