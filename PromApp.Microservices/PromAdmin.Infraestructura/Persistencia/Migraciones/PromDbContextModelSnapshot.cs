@@ -873,6 +873,38 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                     b.ToTable("Modulo", (string)null);
                 });
 
+            modelBuilder.Entity("PromAdmin.Dominio.Entidades.Nacionalidad", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreadoPor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModificadoPor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Descripcion")
+                        .IsUnique()
+                        .HasFilter("[Descripcion] IS NOT NULL");
+
+                    b.ToTable("Nacionalidad", (string)null);
+                });
+
             modelBuilder.Entity("PromAdmin.Dominio.Entidades.Pais", b =>
                 {
                     b.Property<int>("Id")
@@ -1379,11 +1411,20 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                     b.Property<int?>("IdGenero")
                         .HasColumnType("int");
 
+                    b.Property<int?>("IdNacionalidad")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdNacionalidad2")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int?>("NacionalidadId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(max)");
@@ -1425,6 +1466,12 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                     b.HasIndex("IdColegio");
 
                     b.HasIndex("IdGenero");
+
+                    b.HasIndex("IdNacionalidad");
+
+                    b.HasIndex("IdNacionalidad2");
+
+                    b.HasIndex("NacionalidadId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -1830,11 +1877,29 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                         .WithMany("Usuarios")
                         .HasForeignKey("IdGenero");
 
+                    b.HasOne("PromAdmin.Dominio.Entidades.Nacionalidad", "Nacionalidad")
+                        .WithMany()
+                        .HasForeignKey("IdNacionalidad")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PromAdmin.Dominio.Entidades.Nacionalidad", "Nacionalidad2")
+                        .WithMany()
+                        .HasForeignKey("IdNacionalidad2")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("PromAdmin.Dominio.Entidades.Nacionalidad", null)
+                        .WithMany("Usuarios")
+                        .HasForeignKey("NacionalidadId");
+
                     b.Navigation("Ciudad");
 
                     b.Navigation("Colegio");
 
                     b.Navigation("Genero");
+
+                    b.Navigation("Nacionalidad");
+
+                    b.Navigation("Nacionalidad2");
                 });
 
             modelBuilder.Entity("PromAdmin.Dominio.Entidades.Agencia", b =>
@@ -1891,6 +1956,11 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
             modelBuilder.Entity("PromAdmin.Dominio.Entidades.Modulo", b =>
                 {
                     b.Navigation("Pruebas");
+                });
+
+            modelBuilder.Entity("PromAdmin.Dominio.Entidades.Nacionalidad", b =>
+                {
+                    b.Navigation("Usuarios");
                 });
 
             modelBuilder.Entity("PromAdmin.Dominio.Entidades.Pais", b =>

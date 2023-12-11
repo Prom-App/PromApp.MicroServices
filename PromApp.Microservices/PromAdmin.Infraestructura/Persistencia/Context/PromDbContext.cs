@@ -274,10 +274,10 @@ public class PromDbContext : IdentityDbContext<Usuario>
                 .HasForeignKey(x => x.IdColegio);
             e.HasOne(u => u.Genero).WithMany(c => c.Usuarios)
                 .HasForeignKey(x => x.IdGenero);
-            e.HasOne(u => u.Nacionalidad).WithMany(c => c.Usuarios)
-                .HasForeignKey(x => x.IdNacionalidad);
-            e.HasOne(u => u.Nacionalidad2).WithMany(c => c.Usuarios)
-                .HasForeignKey(x => x.IdNacionalidad2);
+            e.HasOne(u => u.Nacionalidad).WithMany()
+                .HasForeignKey(x => x.IdNacionalidad).OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(u => u.Nacionalidad2).WithMany()
+                .HasForeignKey(x => x.IdNacionalidad2).OnDelete(DeleteBehavior.NoAction);
         });
         builder.Entity<IdentityRole>(e =>
         {
