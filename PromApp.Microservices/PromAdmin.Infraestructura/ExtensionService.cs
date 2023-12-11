@@ -27,14 +27,12 @@ public static class ExtensionService
         services = AddAuthentication(services, configuration);
         services = AddSwagger(services);
         services = AddContext(services, configuration);
-        // services.AddTransient<IEmailService, EmailService>();
         services.AddTransient<IAutenticacionService, AutenticacionService>();
 
         services.AddTransient<IUnitOfWork, UnitOfWork>();
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
         services.Configure<GoogleSettings>(configuration.GetSection("GoogleSettings"));
-        // services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
         return services;
     }

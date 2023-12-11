@@ -28,8 +28,8 @@ public class InicializarBaseDatos : IInicializarBaseDatos
         {
             if ((await _dbContext.Database.GetPendingMigrationsAsync(cancellationToken)).Any())
                 await _dbContext.Database.MigrateAsync(cancellationToken);
-            if (await _dbContext.Database.CanConnectAsync(cancellationToken))
-                await _dbSeeder.SeedDatabaseAsync(_userManager, _roleManager, cancellationToken);
+            // if (await _dbContext.Database.CanConnectAsync(cancellationToken))
+            //     await _dbSeeder.SeedDatabaseAsync(_userManager, _roleManager, cancellationToken);
         }
     }
 }

@@ -57,6 +57,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
     public virtual DbSet<Geografia>? Geografia { get; set; }
     public virtual DbSet<Idioma>? Idiomas { get; set; }
     public virtual DbSet<IdiomaXUniversidad> IdiomasXuniversidad { get; set; }
+    public virtual DbSet<Nacionalidad>? Nacionalidades { get; set; }
     public virtual DbSet<Pais>? Paises { get; set; }
     public virtual DbSet<Parentesco>? Parentescos { get; set; }
     public virtual DbSet<Programa>? TiposPrograma { get; set; }
@@ -207,6 +208,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
             e.HasIndex(x => new { x.IdPais, x.Nombre });
         });
         builder.Entity<Genero>().ToTable("Genero").HasIndex(x => x.TipoGenero).IsUnique();
+        builder.Entity<Nacionalidad>().ToTable("Nacionalidad").HasIndex(x => x.Descripcion).IsUnique();
         builder.Entity<Geografia>().ToTable("Geografia").HasIndex(x => x.Caracteristica).IsUnique();
         builder.Entity<Idioma>().ToTable("Idioma").HasIndex(x => x.Lenguaje).IsUnique();
         builder.Entity<IdiomaXUniversidad>(e =>
@@ -272,6 +274,10 @@ public class PromDbContext : IdentityDbContext<Usuario>
                 .HasForeignKey(x => x.IdColegio);
             e.HasOne(u => u.Genero).WithMany(c => c.Usuarios)
                 .HasForeignKey(x => x.IdGenero);
+            e.HasOne(u => u.Nacionalidad).WithMany(c => c.Usuarios)
+                .HasForeignKey(x => x.IdNacionalidad);
+            e.HasOne(u => u.Nacionalidad2).WithMany(c => c.Usuarios)
+                .HasForeignKey(x => x.IdNacionalidad2);
         });
         builder.Entity<IdentityRole>(e =>
         {

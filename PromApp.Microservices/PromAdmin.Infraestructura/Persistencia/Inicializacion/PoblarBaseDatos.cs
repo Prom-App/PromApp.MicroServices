@@ -24,8 +24,8 @@ public class PoblarBaseDatos
     public async Task SeedDatabaseAsync(UserManager<Usuario> userManager, RoleManager<IdentityRole> roleManager,
         CancellationToken cancellationToken)
     {
-        //await PoblarCiudades(cancellationToken);
-        //await PoblarRolesAsync(roleManager, cancellationToken);
+        await PoblarCiudades(cancellationToken);
+        await PoblarRolesAsync(roleManager, cancellationToken);
         await PoblarUsuariosAsync(userManager, cancellationToken);
     }
 
@@ -62,10 +62,10 @@ public class PoblarBaseDatos
         var data = await File.ReadAllTextAsync(
             "../PromAdmin.Infraestructura/Persistencia/Inicializacion/Recursos/Mundo.json", cancellationToken);
         var countries = JsonConvert.DeserializeObject<List<Country>>(data);
-        var paises = new List<Pais>();
+        
         countries!.ForEach(c =>
         {
-            var pais = _context.Paises!.FirstOrDefault(x => x.Nombre == c.Name)!;
+            var pais = _context.Paises!.FirstOrDefault(x => x.Nombre == "United States")!;
             if (pais is null)
             {
                 pais = new Pais()
@@ -98,76 +98,27 @@ public class PoblarBaseDatos
                     _context.SaveChanges();
                     departamento = _context.Departamentos!.FirstOrDefault(
                         x => x.Nombre == s.Name && x.IdPais == pais!.Id)!;
+                    
+                    var idDep = departamento.Id;
+                    s.Cities!.ForEach(ct =>
+                    {
+                        var ciudad = _context.Ciudades!.FirstOrDefault(
+                            x => x.Nombre == ct.Name && x.IdDepartamento == idDep);
+                        if (ciudad is not null) return;
+                        {
+                            ciudad = new Ciudad()
+                            {
+                                Nombre = ct.Name,
+                                Abreviatura = ct.Name!.Length > 2 ? ct.Name.Substring(0, 3).ToUpper() : ct.Name.ToUpper(),
+                                IdDepartamento = idDep
+                            };
+                            _context.Ciudades!.Add(ciudad);
+                            _context.SaveChanges();
+                        }
+                    });
                 }
 
-                var idDep = departamento.Id;
-                s.Cities!.ForEach(ct =>
-                {
-                    var ciudad = _context.Ciudades!.FirstOrDefault(
-                        x => x.Nombre == ct.Name && x.IdDepartamento == idDep);
-                    if (ciudad is not null) return;
-                    {
-                        ciudad = new Ciudad()
-                        {
-                            Nombre = ct.Name,
-                            Abreviatura = ct.Name!.Length > 2 ? ct.Name.Substring(0, 3).ToUpper() : ct.Name.ToUpper(),
-                            IdDepartamento = idDep
-                        };
-                        _context.Ciudades!.Add(ciudad);
-                        _context.SaveChanges();
-                    }
-                });
             });
         });
-        //todo: leer json mundo y serializar a los datos requeridos
     }
-
-    // private async Task SeedCategories(CancellationToken cancellationToken)
-    // {
-    //     if (!_context.Categories!.Any())
-    //     {
-    //         var data =
-    //             await File.ReadAllTextAsync("../Store.Infrastructure/Data/category.json", cancellationToken);
-    //         var countries = JsonConvert.DeserializeObject<List<Category>>(data);
-    //         await _context.Categories!.AddRangeAsync(countries!, cancellationToken);
-    //         await _context.SaveChangesAsync(cancellationToken);
-    //     }
-    // }
-    //
-    // private async Task SeedProducts(CancellationToken cancellationToken)
-    // {
-    //     if (!_context.Products!.Any())
-    //     {
-    //         var data =
-    //             await File.ReadAllTextAsync("../Store.Infrastructure/Data/product.json", cancellationToken);
-    //         var products = JsonConvert.DeserializeObject<List<Product>>(data);
-    //         await _context.Products!.AddRangeAsync(products!, cancellationToken);
-    //         await _context.SaveChangesAsync(cancellationToken);
-    //     }
-    //
-    //     await _context.SaveChangesAsync(cancellationToken);
-    // }
-    //
-    // private async Task SeedCountries(CancellationToken cancellationToken)
-    // {
-    //     if (!_context.Countries!.Any())
-    //     {
-    //         var data =
-    //             await File.ReadAllTextAsync("../Store.Infrastructure/Data/countries.json", cancellationToken);
-    //         var countries = JsonConvert.DeserializeObject<List<Country>>(data);
-    //         await _context.Countries!.AddRangeAsync(countries!, cancellationToken);
-    //         await _context.SaveChangesAsync(cancellationToken);
-    //     }
-    //  }
-    // private async Task SeedBrands(CancellationToken cancellationToken)
-    // {
-    //     if (!_context.Brands!.Any())
-    //     {
-    //         var data =
-    //             await File.ReadAllTextAsync("../Store.Infrastructure/Data/brand.json", cancellationToken);
-    //         var brands = JsonConvert.DeserializeObject<List<Brand>>(data);
-    //         await _context.Brands!.AddRangeAsync(brands!, cancellationToken);
-    //         await _context.SaveChangesAsync(cancellationToken);
-    //     }
-    // }
 }
