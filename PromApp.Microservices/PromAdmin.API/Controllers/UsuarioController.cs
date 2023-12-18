@@ -16,6 +16,7 @@ using PromAdmin.Dominio.Entidades;
 
 namespace PromAdmin.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/[controller]")]
 public class UsuarioController : ControllerBase
@@ -43,7 +44,7 @@ public class UsuarioController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("registrar", Name = "Registrar")]
-    public async Task<IActionResult> Registrar([FromForm] RegistrarUsuarioCommand request)
+    public async Task<IActionResult> Registrar(RegistrarUsuarioCommand request)
     {
         return Ok(await _mediator.Send(request));
     }
@@ -61,9 +62,9 @@ public class UsuarioController : ControllerBase
     {
         return Ok(await _mediator.Send(request));
     }
-
+    
     [HttpPost("actualizarUsuario", Name = "ActualizarUsuario")]
-    public async Task<IActionResult> ActualizarUsuario([FromForm] ActualizarUsuarioCommand request)
+    public async Task<IActionResult> ActualizarUsuario(ActualizarUsuarioCommand request)
     {
         return Ok(await _mediator.Send(request));
     }
@@ -93,7 +94,7 @@ public class UsuarioController : ControllerBase
 
     [Authorize(Roles = nameof(ListaRoles.Administrador))]
     [HttpGet("usuarios", Name = "PaginacionUsuarios")]
-    public async Task<IActionResult> paginacionUsuarios([FromQuery] PaginacionUsuariosQuery query)
+    public async Task<IActionResult> PaginacionUsuarios([FromQuery] PaginacionUsuariosQuery query)
     {
         return Ok(await _mediator.Send(query));
     }

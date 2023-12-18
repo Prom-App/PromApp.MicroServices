@@ -32,9 +32,12 @@ public class AutenticacionService : IAutenticacionService
     {
         var claims = new List<Claim>()
         {
-            new(JwtRegisteredClaimNames.NameId, usuario.UserName!),
+            new(JwtRegisteredClaimNames.NameId, usuario.Email!),
             new("userId", usuario.Id!),
+            new("name", usuario.Nombre!),
             new("email", usuario.Email!),
+            new("avatar", usuario.Avatar!.Url!),
+            new("username", usuario.UserName!),
         };
         claims.AddRange(roles!.Select(rol => new Claim(ClaimTypes.Role, rol)));
 
@@ -45,7 +48,9 @@ public class AutenticacionService : IAutenticacionService
         {
             Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.Expiracion),
-            SigningCredentials = credentials
+            SigningCredentials = credentials,
+            Audience = _jwtSettings.Audiencia,
+            Issuer = _jwtSettings.Emisor, 
         };
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescription);

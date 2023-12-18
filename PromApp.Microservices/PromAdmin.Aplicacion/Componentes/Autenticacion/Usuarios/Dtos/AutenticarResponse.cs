@@ -1,6 +1,7 @@
 using PromAdmin.Core.Componentes.Ciudades.Dtos;
 using PromAdmin.Core.Componentes.Colegios.Dtos;
 using PromAdmin.Core.Componentes.Generos.Dtos;
+using PromAdmin.Dominio.Entidades;
 
 namespace PromAdmin.Core.Componentes.Autenticacion.Usuarios.Dtos;
 
@@ -14,6 +15,7 @@ public class AutenticarResponse
     public CiudadResponse? Ciudad { get; set; }
     public ColegioResponse? Colegio { get; set; }
     public GeneroResponse? Genero { get; set; }
+    public string? Avatar { get; set; }
     public string? Email { get; set; }
     public string? Token { get; set; }
     public ICollection<string>? Roles { get; set; }

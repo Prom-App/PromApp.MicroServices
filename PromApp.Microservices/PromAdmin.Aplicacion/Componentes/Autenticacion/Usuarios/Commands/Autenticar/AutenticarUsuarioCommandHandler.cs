@@ -44,6 +44,8 @@ public class AutenticarUsuarioCommandHandler : IRequestHandler<AutenticarUsuario
         var colegio = await _unitOfWork.Repository<Colegio>().GetEntityAsync(x => x.Id == usuario.IdColegio);
         var genero = await _unitOfWork.Repository<Dominio.Entidades.Genero>()
             .GetEntityAsync(x => x.Id == usuario.IdGenero);
+        
+        usuario.Avatar = await _unitOfWork.Repository<Avatar>().GetEntityAsync(x => x.Id == usuario!.IdAvatar);
 
         var roles = await _userManager.GetRolesAsync(usuario);
 

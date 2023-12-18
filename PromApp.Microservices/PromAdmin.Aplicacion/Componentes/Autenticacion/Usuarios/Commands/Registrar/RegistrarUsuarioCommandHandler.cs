@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using PromAdmin.Core.Componentes.Autenticacion.Usuarios.Dtos;
 using PromAdmin.Core.Exceptions;
+using PromAdmin.Core.Interfaces;
 using PromAdmin.Core.Interfaces.Seguridad;
 using PromAdmin.Dominio.Entidades;
 
@@ -11,12 +12,14 @@ public class RegistrarUsuarioCommandHandler : IRequestHandler<RegistrarUsuarioCo
 {
     private readonly UserManager<Usuario> _userManager;
     private readonly IAutenticacionService _autenticacionService;
+    private readonly IUnitOfWork _unitOfWork;
 
     public RegistrarUsuarioCommandHandler(UserManager<Usuario> userManager, RoleManager<IdentityRole> roleManager,
-        IAutenticacionService autenticacionService)
+        IAutenticacionService autenticacionService, IUnitOfWork unitOfWork)
     {
         _userManager = userManager;
         _autenticacionService = autenticacionService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<AutenticarResponse> Handle(RegistrarUsuarioCommand request, CancellationToken cancellationToken)
@@ -51,6 +54,8 @@ public class RegistrarUsuarioCommandHandler : IRequestHandler<RegistrarUsuarioCo
 
         await _userManager.AddToRoleAsync(usuario, rolInicial);
         var roles = await _userManager.GetRolesAsync(usuario);
+        usuario.Avatar = await _unitOfWork.Repository<Avatar>().GetEntityAsync(x => x.Id == usuario!.IdAvatar);
+        
         return new AutenticarResponse
         {
             Id = usuario.Id,

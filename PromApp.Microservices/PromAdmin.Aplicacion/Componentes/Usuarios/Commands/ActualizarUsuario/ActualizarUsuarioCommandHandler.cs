@@ -35,24 +35,47 @@ public class ActualizarUsuarioCommandHandler : IRequestHandler<ActualizarUsuario
         if (usuarioActualizar is null)
             throw new BadRequestException("Usuario no existe");
 
-        usuarioActualizar.Nombre = request.Nombre;
-        usuarioActualizar.Telefono = request.Telefono;
-        usuarioActualizar.Direccion = request.Direccion;
-        usuarioActualizar.FechaNacimiento = request.FechaNacimiento;
-        usuarioActualizar.IdCiudad = request.IdCiudad;
-        usuarioActualizar.IdColegio = request.IdColegio;
-        usuarioActualizar.IdGenero = request.IdGenero;
+        if (!string.IsNullOrEmpty(request.Nombre!))
+            usuarioActualizar.Nombre = request.Nombre;
+
+        if (!string.IsNullOrEmpty(request.Telefono))
+            usuarioActualizar.Telefono = request.Telefono;
+
+        if (!string.IsNullOrEmpty(request.Direccion))
+            usuarioActualizar.Direccion = request.Direccion;
+
+        if (request.FechaNacimiento != null)
+            usuarioActualizar.FechaNacimiento = request.FechaNacimiento;
+
+        if (request.IdCiudad is > 0)
+            usuarioActualizar.IdCiudad = request.IdCiudad;
+
+        if (request.IdColegio is > 0)
+            usuarioActualizar.IdColegio = request.IdColegio;
+
+        if (request.IdGenero is > 0)
+            usuarioActualizar.IdGenero = request.IdGenero;
+
+        if (request.IdAvatar is > 0)
+            usuarioActualizar.IdAvatar = request.IdAvatar;
+
+        if (request.IdNacionalidad is > 0)
+            usuarioActualizar.IdNacionalidad = request.IdNacionalidad;
+
+        if (request.IdNacionalidad2 is > 0)
+            usuarioActualizar.IdNacionalidad2 = request.IdNacionalidad2;
 
         var result = await _userManager.UpdateAsync(usuarioActualizar);
 
         if (!result.Succeeded)
             throw new Exception("Ha fallado la actualización del usuario");
 
-        var usuario = await _userManager.FindByEmailAsync(usuarioActualizar.Email!);
+        var usuario = usuarioActualizar;
         var roles = await _userManager.GetRolesAsync(usuario!);
         var ciudad = await _unitOfWork.Repository<Ciudad>().GetEntityAsync(x => x.Id == usuario!.IdCiudad);
         var colegio = await _unitOfWork.Repository<Colegio>().GetEntityAsync(x => x.Id == usuario!.IdColegio);
         var genero = await _unitOfWork.Repository<Genero>().GetEntityAsync(x => x.Id == usuario!.IdGenero);
+        usuario.Avatar = await _unitOfWork.Repository<Avatar>().GetEntityAsync(x => x.Id == usuario!.IdAvatar);
 
         return new AutenticarResponse
         {

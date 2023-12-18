@@ -16,8 +16,6 @@ public class AutenticarGoogleCommandHandler : IRequestHandler<AutenticarGoogleCo
 {
     private readonly UserManager<Usuario> _userManager;
     private readonly IAutenticacionService _autenticacionService;
-    private readonly SignInManager<Usuario> _signInManager;
-    private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
     private readonly GoogleSettings _googleSettings;
 
@@ -27,8 +25,6 @@ public class AutenticarGoogleCommandHandler : IRequestHandler<AutenticarGoogleCo
     {
         _userManager = userManager;
         _autenticacionService = autenticacionService;
-        _signInManager = signInManager;
-        _mapper = mapper;
         _unitOfWork = unitOfWork;
         _googleSettings = googleSettings.Value;
     }
@@ -48,14 +44,15 @@ public class AutenticarGoogleCommandHandler : IRequestHandler<AutenticarGoogleCo
         var usuario = await _userManager.FindByEmailAsync(payload.Email!);
 
         if (usuario is null)
-        {   
+        {
             await CrearUsuarioGoogle(payload.Email, request.Token!);
             usuario = await _userManager.FindByEmailAsync(payload.Email!);
         }
 
         if (!usuario!.Activo) throw new Exception($"Usuario está bloqueado, por favor valide con el administrador");
-        
+
         var roles = await _userManager.GetRolesAsync(usuario);
+        usuario.Avatar = await _unitOfWork.Repository<Avatar>().GetEntityAsync(x => x.Id == usuario!.IdAvatar);
         return new AutenticarResponse
         {
             Id = usuario.Id,
