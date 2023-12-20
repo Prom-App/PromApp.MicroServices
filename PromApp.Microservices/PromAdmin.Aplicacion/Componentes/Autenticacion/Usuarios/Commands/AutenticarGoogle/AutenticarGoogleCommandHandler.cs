@@ -69,7 +69,7 @@ public class AutenticarGoogleCommandHandler : IRequestHandler<AutenticarGoogleCo
             Email = email,
             UserName = email
         };
-        var result = await _userManager.CreateAsync(usuario, "contrasenaparaPROM123");
+        var result = await _userManager.CreateAsync(usuario, "contrasenaparaPROM123*");
 
         if (!result.Succeeded) throw new Exception("No fue posible registrar el usuario");
 
