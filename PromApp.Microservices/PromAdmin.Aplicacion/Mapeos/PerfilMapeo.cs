@@ -9,6 +9,7 @@ using PromAdmin.Core.Componentes.Generos.Dtos;
 using PromAdmin.Core.Componentes.Nacionalidades.Commands.CrearNacionalidad;
 using PromAdmin.Core.Componentes.Nacionalidades.Dtos;
 using PromAdmin.Core.Componentes.Paises.Dtos;
+using PromAdmin.Core.Componentes.Tests.Dtos;
 using PromAdmin.Dominio.Entidades;
 
 namespace PromAdmin.Core.Mapeos;
@@ -30,6 +31,7 @@ public class PerfilMapeo : Profile
         CreateMap<Avatar, AvatarResponse>();
         CreateMap<Departamento, DepartamentoResponse>();
         CreateMap<Pais, PaisResponse>();
+        CreateMap<Test, TestResponse>();
         
         CreateMap<CrearCiudadCommand, Ciudad>();
         CreateMap<ActualizarCiudadCommand, Ciudad>();
