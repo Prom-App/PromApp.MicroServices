@@ -49,7 +49,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-await app.Services.InicializarBaseDatosAsync();
+//await app.Services.InicializarBaseDatosAsync();
 
 app.UseHttpsRedirection();
 
