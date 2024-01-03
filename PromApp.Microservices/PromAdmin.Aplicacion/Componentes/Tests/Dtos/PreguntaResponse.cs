@@ -9,7 +9,7 @@ public class PreguntaResponse
     public int IdTipoPregunta { get; set; }
     public int IdSeccion { get; set; }
     public int IdTest { get; set; }
-    public virtual Seccion? Seccion { get; set; }
-    public virtual TipoPregunta? TipoPregunta { get; set; }
-    public virtual ICollection<Respuesta>? Respuestas { get; set; }
+    public virtual SeccionResponse? Seccion { get; set; }
+    public virtual TipoPreguntaResponse? TipoPregunta { get; set; }
+    public virtual ICollection<RespuestaResponse>? Respuestas { get; set; }
 }

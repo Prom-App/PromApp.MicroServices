@@ -22,4 +22,5 @@ public class Usuario : IdentityUser
     public virtual Genero? Genero { get; set; }
     public virtual Nacionalidad? Nacionalidad { get; set; }
     public virtual Nacionalidad? Nacionalidad2 { get; set; }
+    public virtual ICollection<TestXUsuario>? TestsXUsuario { get; set; }
 }

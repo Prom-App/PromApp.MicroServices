@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Query;
 using PromAdmin.Core.Specifications;
 
 namespace PromAdmin.Core.Interfaces;
@@ -17,7 +18,12 @@ public interface IBaseRepository<T> where T : class
         List<Expression<Func<T, object>>>? includes = null,
         bool disableTracking = true);
 
-
+    Task<T> GetEntityIncludesAsync(
+        Expression<Func<T, bool>>? predicate,
+        List<Expression<Func<T, object>>>? includes = null,
+        List<Func<IIncludableQueryable<T, object>, IIncludableQueryable<T, object>>>? thenIncludes = null,
+        bool disableTracking = true);
+    
     Task<T> GetEntityAsync(Expression<Func<T, bool>>? predicate,
         List<Expression<Func<T, object>>>? includes = null,
         bool disableTracking = true);

@@ -29,15 +29,21 @@ public class TestPorNombreQueryHandler : IRequestHandler<TestPorNombreQuery, Tes
 
         var test = await _unitOfWork.Repository<Test>().GetEntityAsync(x => x.NombreTest == request.Nombre, includes);
 
-        var testResponse = _mapper.Map<TestResponse>(test);
 
         foreach (var testPregunta in test.Preguntas!)
         {
-            testPregunta.TipoPregunta=
-                await _unitOfWork.Repository<TipoPregunta>().GetEntityAsync(x => x.Id == testPregunta.IdSeccion);
-            testPregunta.Respuestas =
-                (await _unitOfWork.Repository<Respuesta>().GetAsync(x => x.IdPregunta == testPregunta.Id)).ToList();
+            var include = new List<Expression<Func<Pregunta, object>>>
+            {
+                x => x.TipoPregunta!,
+                x => x.Respuestas!
+            };
+            var pregunta = await _unitOfWork.Repository<Pregunta>()
+                .GetEntityAsync(x => x.Id == testPregunta.Id, include);
+            testPregunta.TipoPregunta = pregunta.TipoPregunta;
+            testPregunta.Respuestas = pregunta.Respuestas;
         }
+        
+        var testResponse = _mapper.Map<TestResponse>(test);
         return testResponse;
     }
 }

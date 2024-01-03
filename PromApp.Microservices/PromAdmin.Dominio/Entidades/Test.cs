@@ -12,4 +12,5 @@ public class Test : EntidadBase
     public virtual Modulo? Modulo { get; set; }
     public virtual ICollection<Seccion>? Secciones { get; set; }
     public virtual ICollection<Pregunta>? Preguntas { get; set; }
+    public virtual ICollection<TestXUsuario>? TestsXUsuario { get; set; }
 }

@@ -72,6 +72,8 @@ public class PromDbContext : IdentityDbContext<Usuario>
     public virtual DbSet<Cualidad>? Cualidades { get; set; }
     public virtual DbSet<Personalidad>? Personalidades { get; set; }
     public virtual DbSet<CualidadXPersonalidad>? CualidadesXPersonalidad { get; set; }
+    public virtual DbSet<TestXUsuario>? TestsXUsuario { get; set; }
+    public virtual DbSet<RespuestaXTest>? RespuestasXTest { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -99,6 +101,22 @@ public class PromDbContext : IdentityDbContext<Usuario>
             e.HasOne(d => d.Modulo).WithMany(p => p.Pruebas)
                 .HasForeignKey(d => d.IdModulo).OnDelete(DeleteBehavior.Cascade);
         });
+        builder.Entity<TestXUsuario>(e =>
+        {
+            e.ToTable("TestXUsuario");
+            e.HasOne(t => t.Usuario).WithMany(u => u.TestsXUsuario)
+                .HasForeignKey(x => x.IdUsuario);
+            e.HasOne(t => t.Test).WithMany(u => u.TestsXUsuario)
+                .HasForeignKey(x => x.IdTest);
+        });
+
+        builder.Entity<RespuestaXTest>(e =>
+        {
+            e.ToTable("RespuestaXTest");
+            e.HasOne(x => x.Test).WithMany(y => y.RespuestasTest)
+                .HasForeignKey(z => z.IdTestUsuario);
+        });
+
         builder.Entity<Seccion>(e =>
         {
             e.ToTable("Seccion");

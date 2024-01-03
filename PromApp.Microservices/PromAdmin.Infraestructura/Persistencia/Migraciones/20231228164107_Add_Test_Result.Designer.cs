@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PromAdmin.Infraestructura.Persistencia.Context;
 
@@ -11,9 +12,11 @@ using PromAdmin.Infraestructura.Persistencia.Context;
 namespace PromAdmin.Infraestructura.Persistencia.Migraciones
 {
     [DbContext(typeof(PromDbContext))]
-    partial class PromDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231228164107_Add_Test_Result")]
+    partial class Add_Test_Result
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1338,9 +1341,6 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
 
                     b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("Finalizado")
-                        .HasColumnType("bit");
 
                     b.Property<int>("IdTest")
                         .HasColumnType("int");

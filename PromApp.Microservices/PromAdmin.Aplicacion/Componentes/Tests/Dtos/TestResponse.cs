@@ -8,6 +8,6 @@ public class TestResponse
     public string? NombreTest { get; set; }
     public string? Descripcion { get; set; }
     public string? Observacion { get; set; }
-    public virtual ICollection<Seccion>? Secciones { get; set; }
-    public virtual ICollection<Pregunta>? Preguntas { get; set; }
+    public virtual ICollection<SeccionResponse>? Secciones { get; set; }
+    public virtual ICollection<PreguntaResponse>? Preguntas { get; set; }
 }

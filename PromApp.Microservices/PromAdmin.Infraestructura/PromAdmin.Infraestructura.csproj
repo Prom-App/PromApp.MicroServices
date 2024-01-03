@@ -31,7 +31,6 @@
     
     <ItemGroup>
       <Folder Include="Persistencia\Context\" />
-      <Folder Include="Persistencia\Migraciones\" />
     </ItemGroup>
 
 </Project>

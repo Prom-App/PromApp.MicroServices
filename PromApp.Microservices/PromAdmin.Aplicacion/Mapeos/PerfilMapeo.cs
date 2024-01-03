@@ -32,6 +32,10 @@ public class PerfilMapeo : Profile
         CreateMap<Departamento, DepartamentoResponse>();
         CreateMap<Pais, PaisResponse>();
         CreateMap<Test, TestResponse>();
+        CreateMap<Seccion, SeccionResponse>();
+        CreateMap<Pregunta, PreguntaResponse>();
+        CreateMap<TipoPregunta, TipoPreguntaResponse>();
+        CreateMap<Respuesta, RespuestaResponse>();
         
         CreateMap<CrearCiudadCommand, Ciudad>();
         CreateMap<ActualizarCiudadCommand, Ciudad>();
