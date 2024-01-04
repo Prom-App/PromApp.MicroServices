@@ -3,7 +3,7 @@ using PromAdmin.Core.Componentes.Tests.Dtos;
 
 namespace PromAdmin.Core.Componentes.Tests.Commands.GuardarResultadosTest;
 
-public class GuardarResultadosTestCommand:IRequest<string>
+public class GuardarResultadosTestCommand:IRequest<object>
 {
     public string? NombreTest { get; set; }
     public bool Finalizado { get; set; }

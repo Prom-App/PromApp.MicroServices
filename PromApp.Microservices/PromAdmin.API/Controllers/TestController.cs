@@ -43,9 +43,9 @@ public class TestController : ControllerBase
     {
         var query = new CalcularMBTIEvent
         {
-            IdUsuario = "7c218340-40c0-4887-969b-7459d5ddd25b",
-            IdTestXUsuario = 2,
-            Respuestas = await _unitOfWork.Repository<RespuestaXTest>().GetAsync(x => x.IdTestUsuario == 2)
+            IdUsuario = "f4c0bf0e-cfc1-4e4e-8e3f-76e4183d8a95",
+            IdTestXUsuario = 4,
+            Respuestas = await _unitOfWork.Repository<RespuestaXTest>().GetAsync(x => x.IdTestUsuario == 4)
         };
         return Ok(await _mediator.Send(query));
     }

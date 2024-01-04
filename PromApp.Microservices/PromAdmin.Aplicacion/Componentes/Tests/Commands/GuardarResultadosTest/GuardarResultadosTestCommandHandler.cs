@@ -8,7 +8,7 @@ using PromAdmin.Dominio.Entidades;
 
 namespace PromAdmin.Core.Componentes.Tests.Commands.GuardarResultadosTest;
 
-public class GuardarResultadosTestCommandHandler : IRequestHandler<GuardarResultadosTestCommand, string>
+public class GuardarResultadosTestCommandHandler : IRequestHandler<GuardarResultadosTestCommand, object>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
@@ -26,7 +26,7 @@ public class GuardarResultadosTestCommandHandler : IRequestHandler<GuardarResult
         _mediator = mediator;
     }
 
-    public async Task<string> Handle(GuardarResultadosTestCommand request, CancellationToken cancellationToken)
+    public async Task<object> Handle(GuardarResultadosTestCommand request, CancellationToken cancellationToken)
     {
         var usuario = await _userManager.FindByEmailAsync(await _authService.ObtenerSesion());
 
@@ -72,7 +72,11 @@ public class GuardarResultadosTestCommandHandler : IRequestHandler<GuardarResult
                     IdTestXUsuario = testXUsuario.IdTest,
                     Respuestas = respuestasTest// await _unitOfWork.Repository<RespuestaXTest>().GetAsync(x => x.IdTestUsuario == 2)
                 }, cancellationToken);
-            return "la información se guardó correctamente;";
+            var resp = new
+            {
+                Message = "La información se guardó correctamente."
+            };
+            return resp;
         }
         catch (Exception e)
         {
