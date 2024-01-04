@@ -1,6 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using PromAdmin.Core.Eventos.MBTI;
 using PromAdmin.Core.Interfaces;
 using PromAdmin.Core.Interfaces.Seguridad;
 using PromAdmin.Dominio.Entidades;
@@ -13,14 +14,16 @@ public class GuardarResultadosTestCommandHandler : IRequestHandler<GuardarResult
     private readonly IMapper _mapper;
     private readonly IAutenticacionService _authService;
     private readonly UserManager<Usuario> _userManager;
+    private readonly IMediator _mediator;
 
     public GuardarResultadosTestCommandHandler(IUnitOfWork unitOfWork, IMapper mapper,
-        IAutenticacionService authService, UserManager<Usuario> userManager)
+        IAutenticacionService authService, UserManager<Usuario> userManager, IMediator mediator)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _authService = authService;
         _userManager = userManager;
+        _mediator = mediator;
     }
 
     public async Task<string> Handle(GuardarResultadosTestCommand request, CancellationToken cancellationToken)
@@ -35,7 +38,8 @@ public class GuardarResultadosTestCommandHandler : IRequestHandler<GuardarResult
         if (testXUsuario == null)
         {
             await _unitOfWork.Repository<TestXUsuario>()
-                .AddAsync(new TestXUsuario { IdUsuario = usuario!.Id, IdTest = test.Id, Finalizado = request.Finalizado });
+                .AddAsync(new TestXUsuario
+                    { IdUsuario = usuario!.Id, IdTest = test.Id, Finalizado = request.Finalizado });
             testXUsuario = await _unitOfWork.Repository<TestXUsuario>()
                 .GetEntityAsync(x => x.IdUsuario == usuario!.Id && x.IdTest == test.Id && !x.Finalizado);
         }
@@ -57,13 +61,20 @@ public class GuardarResultadosTestCommandHandler : IRequestHandler<GuardarResult
             _unitOfWork.Repository<RespuestaXTest>().GetAsync(x => x.IdTestUsuario == testXUsuario.Id);
         try
         {
-
-            _unitOfWork.Repository<RespuestaXTest>().DeleteRange(respTestExistentes);
+            if (respTestExistentes.Count > 0)
+                _unitOfWork.Repository<RespuestaXTest>().DeleteRange(respTestExistentes);
             _unitOfWork.Repository<RespuestaXTest>().AddRange(respuestasTest);
             await _unitOfWork.Complete();
+            if (!request.Finalizado)
+                _ = _mediator.Send(new CalcularMBTIEvent()
+                {
+                    IdUsuario = usuario!.Id,
+                    IdTestXUsuario = testXUsuario.IdTest,
+                    Respuestas = respuestasTest// await _unitOfWork.Repository<RespuestaXTest>().GetAsync(x => x.IdTestUsuario == 2)
+                }, cancellationToken);
             return "la información se guardó correctamente;";
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             throw e;
         }

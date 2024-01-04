@@ -74,6 +74,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
     public virtual DbSet<CualidadXPersonalidad>? CualidadesXPersonalidad { get; set; }
     public virtual DbSet<TestXUsuario>? TestsXUsuario { get; set; }
     public virtual DbSet<RespuestaXTest>? RespuestasXTest { get; set; }
+    public virtual DbSet<MBTIResultado>? MbtiResultados { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -117,6 +118,11 @@ public class PromDbContext : IdentityDbContext<Usuario>
                 .HasForeignKey(z => z.IdTestUsuario);
         });
 
+        builder.Entity<MBTIResultado>(e=>
+        {
+            e.ToTable("MBTIResutlado");
+            e.HasIndex(x => new { x.IdUsuario, x.IdTestXUsuario }).IsUnique();
+        });
         builder.Entity<Seccion>(e =>
         {
             e.ToTable("Seccion");
