@@ -44,10 +44,10 @@ public class AutenticacionService : IAutenticacionService
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secreto!));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-        var tokenDescription = new SecurityTokenDescriptor()
+        var tokenDescription = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.Expiracion),
+            Expires = DateTime.UtcNow.AddDays(_jwtSettings.Expiracion),
             SigningCredentials = credentials,
             Audience = _jwtSettings.Audiencia,
             Issuer = _jwtSettings.Emisor,

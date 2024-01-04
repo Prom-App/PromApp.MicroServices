@@ -61,7 +61,7 @@ public class CalcularMBTIEventHandler : IRequestHandler<CalcularMBTIEvent, strin
 
         try
         {
-            //await _unitOfWork.Repository<MBTIResultado>().AddAsync(mbtiResultado);
+            await _unitOfWork.Repository<MBTIResultado>().AddAsync(mbtiResultado);
             return $"Se ha calculado correctamente el MBTI con resultado: {mbtiResultado.Resultado}";
         }
         catch (Exception e)

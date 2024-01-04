@@ -16,7 +16,7 @@ using PromAdmin.Dominio.Entidades;
 
 namespace PromAdmin.API.Controllers;
 
-// [Authorize]
+[Authorize]
 [ApiController]
 [Route("api/v1/[controller]")]
 public class UsuarioController : ControllerBase
@@ -62,7 +62,7 @@ public class UsuarioController : ControllerBase
     {
         return Ok(await _mediator.Send(request));
     }
-    [AllowAnonymous]
+    
     [HttpPost("actualizarUsuario", Name = "ActualizarUsuario")]
     public async Task<IActionResult> ActualizarUsuario(ActualizarUsuarioCommand request)
     {

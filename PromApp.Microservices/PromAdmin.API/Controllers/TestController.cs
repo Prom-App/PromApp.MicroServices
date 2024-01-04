@@ -31,7 +31,6 @@ public class TestController : ControllerBase
         return Ok(await _mediator.Send(query));
     }
 
-    [AllowAnonymous]
     [HttpPost("guardarTest", Name = "GuardarTest")]
     public async Task<IActionResult> GuardarTest(GuardarResultadosTestCommand request)
     {
@@ -42,7 +41,7 @@ public class TestController : ControllerBase
     [HttpGet("CalcularMBTI", Name = "CalcularMBTI")]
     public async Task<IActionResult> CalcularMBTI()
     {
-        var query = new CalcularMBTIEvent()
+        var query = new CalcularMBTIEvent
         {
             IdUsuario = "7c218340-40c0-4887-969b-7459d5ddd25b",
             IdTestXUsuario = 2,
