@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PromAdmin.Infraestructura.Persistencia.Context;
 
@@ -11,9 +12,11 @@ using PromAdmin.Infraestructura.Persistencia.Context;
 namespace PromAdmin.Infraestructura.Persistencia.Migraciones
 {
     [DbContext(typeof(PromDbContext))]
-    partial class PromDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240105182030_Fix_tablename")]
+    partial class Fix_tablename
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -794,9 +797,14 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                     b.Property<int>("IdPersonalidad")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PersonalidadId")
+                        .HasColumnType("int");
+
                     b.HasKey("IdCualidad", "IdPersonalidad");
 
                     b.HasIndex("IdPersonalidad");
+
+                    b.HasIndex("PersonalidadId");
 
                     b.ToTable("CualidadXPersonalidad", (string)null);
                 });
@@ -2164,10 +2172,14 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                         .IsRequired();
 
                     b.HasOne("PromAdmin.Dominio.Entidades.Personalidad", "Personalidad")
-                        .WithMany("CualidadesXPersonalidad")
+                        .WithMany()
                         .HasForeignKey("IdPersonalidad")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("PromAdmin.Dominio.Entidades.Personalidad", null)
+                        .WithMany("CualidadesXPersonalidad")
+                        .HasForeignKey("PersonalidadId");
 
                     b.Navigation("Cualidad");
 

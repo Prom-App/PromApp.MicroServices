@@ -90,7 +90,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
         builder.Entity<Actitud>().ToTable("Actitud").HasIndex(x => x.NombreActitud).IsUnique();
         builder.Entity<Habilidad>().ToTable("Habilidad").HasIndex(x => x.NombreHabilidad).IsUnique();
         builder.Entity<Interes>().ToTable("Interes").HasIndex(x => x.NombreInteres).IsUnique();
-        
+
         builder.Entity<ActitudXCarrera>(e =>
         {
             e.HasKey(x => new { x.IdActitud, x.IdCarrera });
@@ -120,32 +120,32 @@ public class PromDbContext : IdentityDbContext<Usuario>
         });
         builder.Entity<CarreraEvitarXPersonalidad>(e =>
         {
-            e.HasKey(x => new { x.CodigoPersonalidad, x.IdCarrera });
+            e.HasKey(x => new { x.IdPersonalidad, x.IdCarrera });
             e.ToTable("CarrerasEvitar");
             e.HasOne(d => d.Carrera).WithMany()
                 .HasForeignKey(c => c.IdCarrera).OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(d => d.Personalidad).WithMany()
-                .HasForeignKey(x => x.CodigoPersonalidad).OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(d => d.Personalidad).WithMany(k => k.CarrerasEvitar)
+                .HasForeignKey(x => x.IdPersonalidad).OnDelete(DeleteBehavior.Cascade);
         });
         builder.Entity<CarreraRecomendadaXPersonalidad>(e =>
         {
-            e.HasKey(x => new { x.CodigoPersonalidad, x.IdCarrera });
+            e.HasKey(x => new { x.IdPersonalidad, x.IdCarrera });
             e.ToTable("CarrerasRecomendadas");
             e.HasOne(d => d.Carrera).WithMany()
                 .HasForeignKey(c => c.IdCarrera).OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(d => d.Personalidad).WithMany()
-                .HasForeignKey(x => x.CodigoPersonalidad).OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(d => d.Personalidad).WithMany(k => k.CarrerasRecomendadas)
+                .HasForeignKey(x => x.IdPersonalidad).OnDelete(DeleteBehavior.Cascade);
         });
         builder.Entity<CarreraFuturoXPersonalidad>(e =>
         {
-            e.HasKey(x => new { x.CodigoPersonalidad, x.IdCarrera });
+            e.HasKey(x => new { x.IdPersonalidad, x.IdCarrera });
             e.ToTable("CarrerasFuturo");
             e.HasOne(d => d.Carrera).WithMany()
                 .HasForeignKey(c => c.IdCarrera).OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(d => d.Personalidad).WithMany()
-                .HasForeignKey(x => x.CodigoPersonalidad).OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(d => d.Personalidad).WithMany(k => k.CarrerasFuturo)
+                .HasForeignKey(x => x.IdPersonalidad).OnDelete(DeleteBehavior.Cascade);
         });
-        
+
         builder.Entity<Agencia>().ToTable("Agencia").HasIndex(x => x.Nombre).IsUnique();
         builder.Entity<Avatar>().ToTable("Avatar").HasIndex(x => x.Nombre).IsUnique();
         builder.Entity<Modulo>().ToTable("Modulo").HasIndex(x => x.NombreModulo).IsUnique();
@@ -186,9 +186,9 @@ public class PromDbContext : IdentityDbContext<Usuario>
                 .HasForeignKey(z => z.IdTestUsuario);
         });
 
-        builder.Entity<MBTIResultado>(e=>
+        builder.Entity<MBTIResultado>(e =>
         {
-            e.ToTable("MBTIResutlado");
+            e.ToTable("MBTIResultado");
             e.HasIndex(x => new { x.IdUsuario, x.IdTestXUsuario }).IsUnique();
         });
         builder.Entity<Seccion>(e =>
@@ -228,9 +228,9 @@ public class PromDbContext : IdentityDbContext<Usuario>
         {
             e.HasKey(x => new { x.IdCualidad, x.IdPersonalidad });
             e.ToTable("CualidadXPersonalidad");
-            e.HasOne(d => d.Cualidad).WithMany()
+            e.HasOne(d => d.Cualidad).WithMany(k=>k.CualidadesXPersonalidad)
                 .HasForeignKey(c => c.IdCualidad).OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(d => d.Personalidad).WithMany()
+            e.HasOne(d => d.Personalidad).WithMany(k => k.CualidadesXPersonalidad)
                 .HasForeignKey(c => c.IdPersonalidad).OnDelete(DeleteBehavior.Cascade);
         });
         builder.Entity<CaracteristicaXUniversidad>(e =>

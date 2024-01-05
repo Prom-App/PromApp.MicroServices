@@ -2,9 +2,9 @@ using PromAdmin.Dominio.Compartido;
 
 namespace PromAdmin.Dominio.Entidades;
 
-public class MBTIResultado:EntidadBase
+public class MBTIResultado : EntidadBase
 {
-    public string IdUsuario { get; set; }
+    public string? IdUsuario { get; set; }
     public int IdTestXUsuario { get; set; }
     public string? Resultado { get; set; }
     public int Extroversion { get; set; }

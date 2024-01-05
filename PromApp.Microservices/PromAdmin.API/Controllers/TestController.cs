@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PromAdmin.Core.Componentes.Tests.Commands.GuardarResultadosTest;
+using PromAdmin.Core.Componentes.Tests.Queries.ObtenerResultadoMBTI;
 using PromAdmin.Core.Componentes.Tests.Queries.TestPorNombre;
 using PromAdmin.Core.Eventos.MBTI;
 using PromAdmin.Core.Interfaces;
@@ -38,7 +39,7 @@ public class TestController : ControllerBase
     }
     
     [AllowAnonymous]
-    [HttpGet("CalcularMBTI", Name = "CalcularMBTI")]
+    [HttpGet("calcularMBTI", Name = "CalcularMBTI")]
     public async Task<IActionResult> CalcularMBTI()
     {
         var query = new CalcularMBTIEvent
@@ -49,4 +50,12 @@ public class TestController : ControllerBase
         };
         return Ok(await _mediator.Send(query));
     }
+
+    [HttpGet("resultadoMBTI", Name = "ResultadoMBTI")]
+    public async Task<IActionResult> ResultadoMBTI()
+    {
+        var query = new ObtenerResultadoMBTIQuery();
+        return Ok(await _mediator.Send(query));
+    }
+    
 }

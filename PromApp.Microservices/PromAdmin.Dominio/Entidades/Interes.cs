@@ -1,3 +1,5 @@
+using PromAdmin.Dominio.Compartido;
+
 namespace PromAdmin.Dominio.Entidades;
 
 public class Interes: EntidadBase

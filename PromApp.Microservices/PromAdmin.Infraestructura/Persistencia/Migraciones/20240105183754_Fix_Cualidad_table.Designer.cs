@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PromAdmin.Infraestructura.Persistencia.Context;
 
@@ -11,9 +12,11 @@ using PromAdmin.Infraestructura.Persistencia.Context;
 namespace PromAdmin.Infraestructura.Persistencia.Migraciones
 {
     [DbContext(typeof(PromDbContext))]
-    partial class PromDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240105183754_Fix_Cualidad_table")]
+    partial class Fix_Cualidad_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -794,7 +797,12 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                     b.Property<int>("IdPersonalidad")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CualidadId")
+                        .HasColumnType("int");
+
                     b.HasKey("IdCualidad", "IdPersonalidad");
+
+                    b.HasIndex("CualidadId");
 
                     b.HasIndex("IdPersonalidad");
 
@@ -2157,8 +2165,12 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
 
             modelBuilder.Entity("PromAdmin.Dominio.Entidades.CualidadXPersonalidad", b =>
                 {
-                    b.HasOne("PromAdmin.Dominio.Entidades.Cualidad", "Cualidad")
+                    b.HasOne("PromAdmin.Dominio.Entidades.Cualidad", null)
                         .WithMany("CualidadesXPersonalidad")
+                        .HasForeignKey("CualidadId");
+
+                    b.HasOne("PromAdmin.Dominio.Entidades.Cualidad", "Cualidad")
+                        .WithMany()
                         .HasForeignKey("IdCualidad")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

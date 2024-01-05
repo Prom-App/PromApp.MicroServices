@@ -40,5 +40,7 @@ public class PerfilMapeo : Profile
         CreateMap<CrearCiudadCommand, Ciudad>();
         CreateMap<ActualizarCiudadCommand, Ciudad>();
         CreateMap<Ciudad, CiudadResponse>();
+
+        CreateMap<MBTIResultado, ResultadoMBTIResponse>();
     }
 }

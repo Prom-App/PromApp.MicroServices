@@ -39,7 +39,7 @@ public class GuardarResultadosTestCommandHandler : IRequestHandler<GuardarResult
         {
             await _unitOfWork.Repository<TestXUsuario>()
                 .AddAsync(new TestXUsuario
-                    { IdUsuario = usuario!.Id, IdTest = test.Id, Finalizado = request.Finalizado });
+                    { IdUsuario = usuario!.Id, IdTest = test.Id, Finalizado = false });
             testXUsuario = await _unitOfWork.Repository<TestXUsuario>()
                 .GetEntityAsync(x => x.IdUsuario == usuario!.Id && x.IdTest == test.Id && !x.Finalizado);
         }
@@ -63,15 +63,23 @@ public class GuardarResultadosTestCommandHandler : IRequestHandler<GuardarResult
         {
             if (respTestExistentes.Count > 0)
                 _unitOfWork.Repository<RespuestaXTest>().DeleteRange(respTestExistentes);
+
             _unitOfWork.Repository<RespuestaXTest>().AddRange(respuestasTest);
             await _unitOfWork.Complete();
-            if (!request.Finalizado)
-                _ = _mediator.Send(new CalcularMBTIEvent()
+            
+            if (request.Finalizado)
+            {
+                testXUsuario.Finalizado = true;
+                await _unitOfWork.Repository<TestXUsuario>().UpdateAsync(testXUsuario);
+                
+                _ = _mediator.Send(new CalcularMBTIEvent
                 {
                     IdUsuario = usuario!.Id,
                     IdTestXUsuario = testXUsuario.IdTest,
-                    Respuestas = respuestasTest// await _unitOfWork.Repository<RespuestaXTest>().GetAsync(x => x.IdTestUsuario == 2)
+                    Respuestas = respuestasTest
                 }, cancellationToken);
+            }
+
             var resp = new
             {
                 Message = "La información se guardó correctamente."
