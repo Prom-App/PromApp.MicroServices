@@ -28,6 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Componentes\Colegios\Queries\ColegioPorPais\" />
       <Folder Include="Componentes\Nacionalidades\Commands\ActualizarNacionalidad\" />
       <Folder Include="Componentes\Nacionalidades\Queries\NacionalidadPorId\" />
       <Folder Include="Componentes\Nacionalidades\Queries\PaginacionNacionalidades\" />

@@ -22,7 +22,8 @@ public class PaisPorIdQueryHandler: IRequestHandler<PaisPorIdQuery, PaisResponse
     {
         var includes = new List<Expression<Func<Pais, object>>>
         {
-            x => x.Departamentos
+            x => x.Departamentos,
+            x=>x.Colegios
         };
 
         var pais = await _unitOfWork.Repository<Pais>().GetEntityAsync(x => x.Id == request.IdPais, includes);

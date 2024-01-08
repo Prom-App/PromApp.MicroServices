@@ -54,10 +54,27 @@ public class CalcularMBTIEventHandler : IRequestHandler<CalcularMBTIEvent, strin
 
         });
 
-        mbtiResultado.Resultado = (mbtiResultado.Extroversion > mbtiResultado.Introversion ? "E" : "I") +
-                                   (mbtiResultado.Sensing > mbtiResultado.Intuition ? "S" : "N") +
-                                   (mbtiResultado.Thinking > mbtiResultado.Feeling ? "T" : "F") +
-                                   (mbtiResultado.Judging > mbtiResultado.Perceiving ? "J" : "P");
+        var resultado = string.Empty;
+        resultado += (mbtiResultado.Extroversion == mbtiResultado.Introversion)
+            ? (mbtiResultado.Sensing + mbtiResultado.Thinking + mbtiResultado.Judging >
+               mbtiResultado.Intuition + mbtiResultado.Feeling + mbtiResultado.Perceiving)
+                ? "E"
+                : "I"
+            : (mbtiResultado.Extroversion > mbtiResultado.Introversion) ? "E" : "I";
+
+        resultado += (mbtiResultado.Sensing == mbtiResultado.Intuition)
+            ? (resultado.StartsWith("E") ? "S" : "N")
+            : (mbtiResultado.Sensing > mbtiResultado.Intuition) ? "S" : "N";
+
+        resultado += (mbtiResultado.Thinking == mbtiResultado.Feeling)
+            ? (resultado.StartsWith("E") ? "T" : "F")
+            : (mbtiResultado.Thinking > mbtiResultado.Feeling) ? "T" : "F";
+
+        resultado += (mbtiResultado.Judging == mbtiResultado.Perceiving)
+            ? (resultado.StartsWith("E") ? "J" : "P")
+            : (mbtiResultado.Judging > mbtiResultado.Perceiving) ? "J" : "P";
+
+        mbtiResultado.Resultado = resultado;
 
         try
         {

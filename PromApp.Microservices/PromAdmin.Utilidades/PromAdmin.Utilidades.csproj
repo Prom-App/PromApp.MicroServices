@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Syncfusion.HtmlToPdfConverter.Net.Windows" Version="24.1.44" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Plantillas\MBTIResultado.html" />
+      <Resource Include="Plantillas\MBTIResultado.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Plantillas\Recursos\Fuentes\Cocogoose-Pro.ttf" />
+      <Resource Include="Plantillas\Recursos\Fuentes\Cocogoose-Pro.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Plantillas\Recursos\Fuentes\helvetica-light.ttf" />
+      <Resource Include="Plantillas\Recursos\Fuentes\helvetica-light.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Plantillas\Recursos\MBTI\backgroung-header.png" />
+      <Resource Include="Plantillas\Recursos\MBTI\backgroung-header.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Plantillas\Recursos\MBTI\brain.png" />
+      <Resource Include="Plantillas\Recursos\MBTI\brain.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Plantillas\Recursos\MBTI\dard.png" />
+      <Resource Include="Plantillas\Recursos\MBTI\dard.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Plantillas\Recursos\MBTI\fire.png" />
+      <Resource Include="Plantillas\Recursos\MBTI\fire.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
+      <None Remove="Plantillas\Recursos\MBTI\rocket.png" />
+      <Resource Include="Plantillas\Recursos\MBTI\rocket.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="Plantillas\**\*">
+      </None>
+      <Resource Include="Plantillas">
+
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+      
+  </ItemGroup>
+
+</Project>

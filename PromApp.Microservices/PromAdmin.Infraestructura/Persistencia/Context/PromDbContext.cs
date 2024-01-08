@@ -281,6 +281,8 @@ public class PromDbContext : IdentityDbContext<Usuario>
             e.HasIndex(x => new { x.Nombre, x.IdCiudad }).IsUnique();
             e.HasOne(c => c.Ciudad).WithMany(d => d.Colegios)
                 .HasForeignKey(x => x.IdCiudad).OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(c => c.Pais).WithMany(d => d.Colegios)
+                .HasForeignKey(x => x.IdPais).OnDelete(DeleteBehavior.NoAction);
         });
         builder.Entity<Contacto>(e =>
         {

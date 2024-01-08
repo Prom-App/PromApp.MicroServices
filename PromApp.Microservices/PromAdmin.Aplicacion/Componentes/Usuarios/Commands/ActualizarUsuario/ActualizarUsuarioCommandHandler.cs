@@ -43,6 +43,9 @@ public class ActualizarUsuarioCommandHandler : IRequestHandler<ActualizarUsuario
 
         if (!string.IsNullOrEmpty(request.Direccion))
             usuarioActualizar.Direccion = request.Direccion;
+        
+        if (request.GradoEscolar is > 0)
+            usuarioActualizar.GradoEscolar = request.GradoEscolar;
 
         if (request.FechaNacimiento != null)
             usuarioActualizar.FechaNacimiento = request.FechaNacimiento;

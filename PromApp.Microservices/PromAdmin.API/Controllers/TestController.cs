@@ -7,6 +7,7 @@ using PromAdmin.Core.Componentes.Tests.Queries.TestPorNombre;
 using PromAdmin.Core.Eventos.MBTI;
 using PromAdmin.Core.Interfaces;
 using PromAdmin.Dominio.Entidades;
+using PromAdmin.Utilidades.Servicios;
 
 namespace PromAdmin.API.Controllers;
 
@@ -56,6 +57,15 @@ public class TestController : ControllerBase
     {
         var query = new ObtenerResultadoMBTIQuery();
         return Ok(await _mediator.Send(query));
+    }
+
+    [AllowAnonymous]
+    [HttpGet("pdf", Name = "pdf")]
+    public async Task<IActionResult> PDF()
+    {
+        var service = new GenerarPdf();
+        service.Generar();
+        return Ok();
     }
     
 }

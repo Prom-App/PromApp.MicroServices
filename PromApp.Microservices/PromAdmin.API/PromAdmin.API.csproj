@@ -18,10 +18,12 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="Syncfusion.HtmlToPdfConverter.Net.Windows" Version="24.1.44" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\PromAdmin.Infraestructura\PromAdmin.Infraestructura.csproj" />
+      <ProjectReference Include="..\PromAdmin.Utilidades\PromAdmin.Utilidades.csproj" />
       <ProjectReference Include="..\PromApp.Mensajeria.Aplicacion\PromApp.Mensajeria.Aplicacion.csproj" />
     </ItemGroup>
 

@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromApp.Mensajeria.Dominio"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromApp.Mensajeria.Infraestructura", "PromApp.Mensajeria.Infraestructura\PromApp.Mensajeria.Infraestructura.csproj", "{AF439520-2517-417D-A0F5-7405403FCDBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromAdmin.Utilidades", "PromAdmin.Utilidades\PromAdmin.Utilidades.csproj", "{2397E440-E490-46B5-9654-CDEC18B59DF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,7 @@ Global
 		{9DACCFFF-402F-4841-9E0C-4F59BB258D0A} = {BCF6B085-1AD5-4DDE-98D4-A7EA989C65F3}
 		{81CCFA3C-EABA-45BB-8DF6-FEA2CDED6E42} = {BCF6B085-1AD5-4DDE-98D4-A7EA989C65F3}
 		{AF439520-2517-417D-A0F5-7405403FCDBB} = {DEF6AD03-E24A-4856-B74E-2D89DCF69872}
+		{2397E440-E490-46B5-9654-CDEC18B59DF7} = {DB1D1423-777D-437A-8B0A-B46B9E77A8CA}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E88FA855-B8AF-41B9-8158-350191C034AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -97,5 +100,9 @@ Global
 		{AF439520-2517-417D-A0F5-7405403FCDBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF439520-2517-417D-A0F5-7405403FCDBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF439520-2517-417D-A0F5-7405403FCDBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2397E440-E490-46B5-9654-CDEC18B59DF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2397E440-E490-46B5-9654-CDEC18B59DF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2397E440-E490-46B5-9654-CDEC18B59DF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2397E440-E490-46B5-9654-CDEC18B59DF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
