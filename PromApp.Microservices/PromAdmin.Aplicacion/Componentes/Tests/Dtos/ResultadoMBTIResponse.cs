@@ -13,6 +13,9 @@ public class ResultadoMBTIResponse
     public int Feeling { get; set; }
     public int Judging { get; set; }
     public int Perceiving { get; set; }
+    public string? Recomendadas { get; set; }
+    public string? Futuro { get; set; }
+    public string? Evitar { get; set; }
     public IReadOnlyList<string>? Cualidades { get; set; }
     public IReadOnlyCollection<string>? CarrerasRecomendadas { get; set; }
     public IReadOnlyCollection<string>? CarrerasFuturo { get; set; }
