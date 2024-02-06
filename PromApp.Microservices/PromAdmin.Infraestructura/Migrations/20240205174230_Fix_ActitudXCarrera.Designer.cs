@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PromAdmin.Infraestructura.Persistencia.Context;
 
 #nullable disable
 
-namespace PromAdmin.Infraestructura.Persistencia.Migraciones
+namespace PromAdmin.Infraestructura.Migrations
 {
     [DbContext(typeof(PromDbContext))]
-    partial class PromDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240205174230_Fix_ActitudXCarrera")]
+    partial class Fix_ActitudXCarrera
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,7 +234,12 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                     b.Property<int>("IdCarrera")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ActitudId")
+                        .HasColumnType("int");
+
                     b.HasKey("IdActitud", "IdCarrera");
+
+                    b.HasIndex("ActitudId");
 
                     b.HasIndex("IdCarrera");
 
@@ -953,7 +961,12 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                     b.Property<int>("IdCarrera")
                         .HasColumnType("int");
 
+                    b.Property<int?>("HabilidadId")
+                        .HasColumnType("int");
+
                     b.HasKey("IdHabilidad", "IdCarrera");
+
+                    b.HasIndex("HabilidadId");
 
                     b.HasIndex("IdCarrera");
 
@@ -1047,9 +1060,14 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                     b.Property<int>("IdCarrera")
                         .HasColumnType("int");
 
+                    b.Property<int?>("InteresId")
+                        .HasColumnType("int");
+
                     b.HasKey("IdInteres", "IdCarrera");
 
                     b.HasIndex("IdCarrera");
+
+                    b.HasIndex("InteresId");
 
                     b.ToTable("InteresesXCarrera", (string)null);
                 });
@@ -1919,14 +1937,18 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
 
             modelBuilder.Entity("PromAdmin.Dominio.Entidades.ActitudXCarrera", b =>
                 {
-                    b.HasOne("PromAdmin.Dominio.Entidades.Actitud", "Actitud")
+                    b.HasOne("PromAdmin.Dominio.Entidades.Actitud", null)
                         .WithMany("ActitudesXCarrera")
+                        .HasForeignKey("ActitudId");
+
+                    b.HasOne("PromAdmin.Dominio.Entidades.Actitud", "Actitud")
+                        .WithMany()
                         .HasForeignKey("IdActitud")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PromAdmin.Dominio.Entidades.Carrera", "Carrera")
-                        .WithMany("ActitudesXCarrera")
+                        .WithMany()
                         .HasForeignKey("IdCarrera")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2164,14 +2186,18 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
 
             modelBuilder.Entity("PromAdmin.Dominio.Entidades.HabilidadXCarrera", b =>
                 {
+                    b.HasOne("PromAdmin.Dominio.Entidades.Habilidad", null)
+                        .WithMany("HabilidadesXCarreras")
+                        .HasForeignKey("HabilidadId");
+
                     b.HasOne("PromAdmin.Dominio.Entidades.Carrera", "Carrera")
-                        .WithMany("HabilidadesXCarrera")
+                        .WithMany()
                         .HasForeignKey("IdCarrera")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PromAdmin.Dominio.Entidades.Habilidad", "Habilidad")
-                        .WithMany("HabilidadesXCarreras")
+                        .WithMany()
                         .HasForeignKey("IdHabilidad")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2203,16 +2229,20 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
             modelBuilder.Entity("PromAdmin.Dominio.Entidades.InteresXCarrera", b =>
                 {
                     b.HasOne("PromAdmin.Dominio.Entidades.Carrera", "Carrera")
-                        .WithMany("InteresesXCarerra")
+                        .WithMany()
                         .HasForeignKey("IdCarrera")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PromAdmin.Dominio.Entidades.Interes", "Interes")
-                        .WithMany("InteresesXCarrera")
+                        .WithMany()
                         .HasForeignKey("IdInteres")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("PromAdmin.Dominio.Entidades.Interes", null)
+                        .WithMany("InteresesXCarrera")
+                        .HasForeignKey("InteresId");
 
                     b.Navigation("Carrera");
 
@@ -2460,15 +2490,9 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
 
             modelBuilder.Entity("PromAdmin.Dominio.Entidades.Carrera", b =>
                 {
-                    b.Navigation("ActitudesXCarrera");
-
                     b.Navigation("CarrerasRelacionadas");
 
                     b.Navigation("CarrerasXuniversidad");
-
-                    b.Navigation("HabilidadesXCarrera");
-
-                    b.Navigation("InteresesXCarerra");
                 });
 
             modelBuilder.Entity("PromAdmin.Dominio.Entidades.Ciudad", b =>

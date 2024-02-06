@@ -11,6 +11,8 @@ public class Carrera : EntidadBase
     public virtual ICollection<CarreraXUniversidad> CarrerasXuniversidad { get; set; } =
         new List<CarreraXUniversidad>(); 
     public virtual ICollection<ActitudXCarrera>? ActitudesXCarrera { get; set; } 
+    public virtual ICollection<InteresXCarrera>? InteresesXCarerra { get; set; } 
+    public virtual ICollection<HabilidadXCarrera>? HabilidadesXCarrera { get; set; } 
 
     public virtual Programa TipoPrograma { get; set; } = null!;
 }
