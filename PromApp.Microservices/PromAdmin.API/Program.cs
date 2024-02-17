@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.FileProviders;
 using PromAdmin.API.Middlewares;
 using PromAdmin.Core;
 using PromAdmin.Dominio.Entidades;
@@ -10,7 +9,7 @@ using PromAdmin.Infraestructura;
 using PromAdmin.Infraestructura.Persistencia.Context;
 
 
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mgo+DSMBMAY9C3t2UVhhQlVFfV1dWHxLflFyVWJbdV1zflZPcDwsT3RfQFljSH5Vd0dgXX5YdXZWRQ==");
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NAaF1cXmhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEFjW35YcndWRGFfVk13Vg==");
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

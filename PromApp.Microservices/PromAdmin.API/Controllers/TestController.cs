@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.AspNetCore.Mvc;
 using PromAdmin.Core.Componentes.Tests.Commands.GuardarResultadosTest;
 using PromAdmin.Core.Componentes.Tests.Queries.ObtenerResultadoMBTI;
@@ -61,11 +62,12 @@ public class TestController : ControllerBase
 
     [AllowAnonymous]
     [HttpGet("pdf", Name = "pdf")]
-    public async Task<IActionResult> PDF()
+    public IActionResult PDF()
     {
         var service = new GenerarPdf();
-        service.Generar();
-        return Ok();
+        var doc = service.Generar();
+        
+        return File(doc,"application/pdf","MBTIResultado.pdf");
     }
     
 }
