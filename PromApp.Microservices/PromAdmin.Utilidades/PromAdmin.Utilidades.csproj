@@ -7,51 +7,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Syncfusion.HtmlToPdfConverter.Net.Windows" Version="24.1.44" />
+      <Content Include="Plantillas\MBTIResultado.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Plantillas\Recursos\Fuentes\Cocogoose-Pro.ttf" />
+      <Content Include="Plantillas\Recursos\Fuentes\helvetica-light.ttf" />
+      <Content Include="Plantillas\Recursos\MBTI\backgroung-header.png" />
+      <Content Include="Plantillas\Recursos\MBTI\brain.png" />
+      <Content Include="Plantillas\Recursos\MBTI\dard.png" />
+      <Content Include="Plantillas\Recursos\MBTI\fire.png" />
+      <Content Include="Plantillas\Recursos\MBTI\rocket.png" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Plantillas\MBTIResultado.html" />
-      <Resource Include="Plantillas\MBTIResultado.html">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Resource>
-      <None Remove="Plantillas\Recursos\Fuentes\Cocogoose-Pro.ttf" />
-      <Resource Include="Plantillas\Recursos\Fuentes\Cocogoose-Pro.ttf">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Resource>
-      <None Remove="Plantillas\Recursos\Fuentes\helvetica-light.ttf" />
-      <Resource Include="Plantillas\Recursos\Fuentes\helvetica-light.ttf">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Resource>
-      <None Remove="Plantillas\Recursos\MBTI\backgroung-header.png" />
-      <Resource Include="Plantillas\Recursos\MBTI\backgroung-header.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Resource>
-      <None Remove="Plantillas\Recursos\MBTI\brain.png" />
-      <Resource Include="Plantillas\Recursos\MBTI\brain.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Resource>
-      <None Remove="Plantillas\Recursos\MBTI\dard.png" />
-      <Resource Include="Plantillas\Recursos\MBTI\dard.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Resource>
-      <None Remove="Plantillas\Recursos\MBTI\fire.png" />
-      <Resource Include="Plantillas\Recursos\MBTI\fire.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Resource>
-      <None Remove="Plantillas\Recursos\MBTI\rocket.png" />
-      <Resource Include="Plantillas\Recursos\MBTI\rocket.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Resource>
+      <PackageReference Include="Select.HtmlToPdf.NetCore" Version="23.2.0" />
     </ItemGroup>
-    <ItemGroup>
-      <None Update="Plantillas\**\*">
-      </None>
-      <Resource Include="Plantillas">
-
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Resource>
-      
-  </ItemGroup>
 
 </Project>
