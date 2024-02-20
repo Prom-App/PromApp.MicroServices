@@ -10,6 +10,7 @@ using PromAdmin.Core.Componentes.Roles.Queries.ListarRoles;
 using PromAdmin.Core.Componentes.Usuarios.Commands.ActualizarUsuario;
 using PromAdmin.Core.Componentes.Usuarios.Commands.ActualizarUsuarioAdmin;
 using PromAdmin.Core.Componentes.Usuarios.Commands.ActualizarUsuarioEstadoAdmin;
+using PromAdmin.Core.Componentes.Usuarios.Queries.DatosUsuarios;
 using PromAdmin.Core.Componentes.Usuarios.Queries.PaginacionUsuarios;
 using PromAdmin.Core.Componentes.Usuarios.Queries.UsuarioPorId;
 using PromAdmin.Dominio.Entidades;
@@ -105,5 +106,16 @@ public class UsuarioController : ControllerBase
     {
         var query = new ListarRolesQuery();
         return Ok(await _mediator.Send(query));
+    }
+    
+    [AllowAnonymous]
+    [HttpGet("datosUsuarios", Name = "DatosUsuarios")]
+    public async Task<IActionResult> DatosUsuarios()
+    {
+        var query = new DatosUsuariosQuery();
+        var doc = await _mediator.Send(query);
+        
+        return File(doc,"application/xlsx","Usuarios.xlsx");
+        //return Ok();
     }
 }

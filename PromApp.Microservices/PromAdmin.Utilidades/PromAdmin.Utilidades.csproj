@@ -35,6 +35,7 @@
 
     <ItemGroup>
       <PackageReference Include="Scriban" Version="5.9.1" />
+      <PackageReference Include="Select.HtmlToPdf.NetCore" Version="23.2.0" />
       <PackageReference Include="Syncfusion.HtmlToPdfConverter.Net.Windows" Version="24.1.44" />
     </ItemGroup>
 

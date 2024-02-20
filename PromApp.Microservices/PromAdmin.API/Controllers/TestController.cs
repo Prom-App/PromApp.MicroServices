@@ -65,7 +65,7 @@ public class TestController : ControllerBase
     public IActionResult PDF()
     {
         var service = new GenerarPdf();
-        var doc = service.Generar();
+        var doc = service.ConvertirAPdf("MBTIResultado",null);
         
         return File(doc,"application/pdf","MBTIResultado.pdf");
     }
