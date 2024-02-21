@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using PromAdmin.Core.Interfaces;
+using PromAdmin.Core.Interfaces.Negocio;
 using PromAdmin.Core.Interfaces.Seguridad;
 using PromAdmin.Core.Modelos.ExternalApis;
 using PromAdmin.Core.Modelos.Options;
@@ -16,6 +17,7 @@ using PromAdmin.Infraestructura.Compartido.Utilidades;
 using PromAdmin.Infraestructura.Persistencia.Context;
 using PromAdmin.Infraestructura.Persistencia.Inicializacion;
 using PromAdmin.Infraestructura.Persistencia.Repositorios;
+using PromAdmin.Infraestructura.Servicios.Negocio;
 using PromAdmin.Infraestructura.Servicios.Seguridad;
 
 namespace PromAdmin.Infraestructura;
@@ -29,6 +31,8 @@ public static class ExtensionService
         services = AddSwagger(services);
         services = AddContext(services, configuration);
         services.AddTransient<IAutenticacionService, AutenticacionService>();
+        
+        services.AddScoped<ITestService, TestService>();
 
         services.AddTransient<IUnitOfWork, UnitOfWork>();
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
@@ -38,7 +42,7 @@ public static class ExtensionService
 
         return services;
     }
-    
+
     /// <summary>
     /// Add JWT Auth
     /// </summary>
@@ -89,7 +93,7 @@ public static class ExtensionService
             });
         return services;
     }
-    
+
     private static IServiceCollection AddSwagger(this IServiceCollection services)
     {
         var openApi = new OpenApiInfo
@@ -104,12 +108,12 @@ public static class ExtensionService
                 Url = new Uri("https://www.promapp.ai")
             }
         };
-    
+
         services.AddSwaggerGen(x =>
         {
             openApi.Version = "v1";
             x.SwaggerDoc("v1", openApi);
-    
+
             var securityScheme = new OpenApiSecurityScheme
             {
                 Name = "JWT Auth",

@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.AspNetCore.Mvc;
 using PromAdmin.Core.Componentes.Tests.Commands.GuardarResultadosTest;
+using PromAdmin.Core.Componentes.Tests.Queries.GenerarResultadoPDF;
 using PromAdmin.Core.Componentes.Tests.Queries.ObtenerResultadoMBTI;
 using PromAdmin.Core.Componentes.Tests.Queries.TestPorNombre;
 using PromAdmin.Core.Eventos.MBTI;
@@ -39,7 +39,7 @@ public class TestController : ControllerBase
     {
         return Ok(await _mediator.Send(request));
     }
-    
+
     [AllowAnonymous]
     [HttpGet("calcularMBTI", Name = "CalcularMBTI")]
     public async Task<IActionResult> CalcularMBTI()
@@ -60,14 +60,9 @@ public class TestController : ControllerBase
         return Ok(await _mediator.Send(query));
     }
 
-    [AllowAnonymous]
-    [HttpGet("pdf", Name = "pdf")]
-    public IActionResult PDF()
+    [HttpGet("descargarPDF", Name = "DescargarPDF")]
+    public async Task<IActionResult> DescargarPDF(GenerarResultadoPdfQuery query)
     {
-        var service = new GenerarPdf();
-        var doc = service.ConvertirAPdf("MBTIResultado",null);
-        
-        return File(doc,"application/pdf","MBTIResultado.pdf");
+        return await _mediator.Send(query);
     }
-    
 }

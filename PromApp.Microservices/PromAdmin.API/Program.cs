@@ -7,6 +7,7 @@ using PromAdmin.Core;
 using PromAdmin.Dominio.Entidades;
 using PromAdmin.Infraestructura;
 using PromAdmin.Infraestructura.Persistencia.Context;
+using PromAdmin.Utilidades;
 
 
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NAaF1cXmhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEFjW35YcndWRGFfVk13Vg==");
@@ -16,6 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", false, true).Build();
 
 // Add services to the container.
+builder.Services.AgregarDependenciasUtilidades(configuration);
 builder.Services.AgregarDependenciasInfra(configuration);
 builder.Services.AgregarDependenciasApp(configuration);
 

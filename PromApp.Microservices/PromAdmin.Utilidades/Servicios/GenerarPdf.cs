@@ -1,4 +1,7 @@
 using System.Dynamic;
+using Newtonsoft.Json;
+using PromAdmin.Utilidades.Interfaces;
+using Scriban.Runtime;
 using SelectPdf;
 using Syncfusion.HtmlConverter;
 using PdfMargins = Syncfusion.Pdf.Graphics.PdfMargins;
@@ -6,30 +9,30 @@ using PdfPageSize = Syncfusion.Pdf.PdfPageSize;
 
 namespace PromAdmin.Utilidades.Servicios;
 
-public class GenerarPdf 
+public class GenerarPdf : IGenerarPdf
 {
-    public byte[] ConvertirAPdf(string nombrePlantilla, ExpandoObject data)
+    public async Task<byte[]> ConvertirAPdf(string nombrePlantilla, string data)
     {
         var htmlText = PlantillaPorNombre(nombrePlantilla);
 
-        //var expando = JsonConvert.DeserializeObject<ExpandoObject>(modelData);
-        //var sObject = BuildScriptObject(data); //pendiente este metodo
+        var expando = JsonConvert.DeserializeObject<ExpandoObject>(data);
+        var sObject = BuildScriptObject(expando!);
         var templateCtx = new Scriban.TemplateContext();
-        //templateCtx.PushGlobal(sObject);
+        templateCtx.PushGlobal(sObject);
         var template = Scriban.Template.Parse(htmlText);
         var result = template.Render(templateCtx);
 
-        return HtmlToPdfSelectPdf(result);
+        return await HtmlToPdfSelectPdf(result);
     }
 
-    private byte[] HtmlToPdfSelectPdf(string html)
+    private Task<byte[]> HtmlToPdfSelectPdf(string html)
     {
         var converter = new HtmlToPdf {
             Options =
             {
                 PdfPageSize = SelectPdf.PdfPageSize.A4,
-                PdfPageOrientation = SelectPdf.PdfPageOrientation.Portrait,
-                WebPageWidth = 1024,
+                PdfPageOrientation = PdfPageOrientation.Portrait,
+                WebPageWidth = 0,
                 WebPageHeight = 0
             }
         };
@@ -40,7 +43,7 @@ public class GenerarPdf
 
         var file=doc.Save();
         doc.Close();
-        return file;
+        return Task.FromResult(file);
     }
     
     private byte[] HtmlToPdfSyncFusion(string html)
@@ -71,5 +74,45 @@ public class GenerarPdf
     {
         var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plantillas", $"{nombrePlantilla}.html");
         return File.ReadAllText(filePath);
+    }
+    
+    private ScriptObject BuildScriptObject(ExpandoObject expando)
+    {
+        var dict = (IDictionary<string, object>)expando!;
+        var scriptObject = new ScriptObject();
+
+        foreach (var kv in dict)
+        {
+            var renamedKey = StandardMemberRenamer.Rename(kv.Key);
+            if (renamedKey.Equals("items"))
+            {
+
+            }
+
+            if (kv.Value is ExpandoObject expandoValue)
+            {
+                scriptObject.Add(renamedKey, BuildScriptObject(expandoValue));
+            }
+            else if (kv.Value is List<object>)
+            {
+
+                var itemsList = new List<ScriptObject>();
+                foreach (var item in (kv.Value as List<object>)!)
+                {
+                    if (item is ExpandoObject expandoItem)
+                    {
+                        itemsList.Add(BuildScriptObject(expandoItem));
+                    }
+                }
+
+                scriptObject.Add(renamedKey, itemsList);
+            }
+            else
+            {
+                scriptObject.Add(renamedKey, kv.Value);
+            }
+        }
+
+        return scriptObject;
     }
 }

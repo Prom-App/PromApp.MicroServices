@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="Plantillas\MBTIResultado.html">
+      <Content Include="Plantillas\Personalidad.html">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
       <Content Include="Plantillas\Recursos\Fuentes\Cocogoose-Pro.ttf">
@@ -37,6 +37,15 @@
       <PackageReference Include="Scriban" Version="5.9.1" />
       <PackageReference Include="Select.HtmlToPdf.NetCore" Version="23.2.0" />
       <PackageReference Include="Syncfusion.HtmlToPdfConverter.Net.Windows" Version="24.1.44" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+        <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\7.0.7\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+      </Reference>
+      <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+        <HintPath>..\..\..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\7.0.7\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
