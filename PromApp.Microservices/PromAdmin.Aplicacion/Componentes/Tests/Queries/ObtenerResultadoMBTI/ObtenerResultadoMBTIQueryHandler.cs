@@ -58,14 +58,14 @@ public class
 
         var includes = new List<Expression<Func<Personalidad, object>>>
         {
-            x => x.CualidadesXPersonalidad!,
-            x => x.CarrerasRecomendadas!,
-            x => x.CarrerasFuturo!,
-            x => x.CarrerasEvitar!,
+            // x => x.CualidadesXPersonalidad!,
+            // x => x.CarrerasRecomendadas!,
+            // x => x.CarrerasFuturo!,
+            // x => x.CarrerasEvitar!,
         };
 
         var results = _mapper.Map<IReadOnlyList<ResultadoMBTIResponse>>(resultadosMBTI);
-
+        
         foreach (var resultado in results)
         {
             var personalidad = await _unitOfWork.Repository<Personalidad>()
@@ -73,18 +73,22 @@ public class
 
             resultado.Definicion = personalidad.Definicion;
             resultado.Descripcion = personalidad.Descripcion;
-            resultado.CarrerasRecomendadas = (await _unitOfWork.Repository<Carrera>()
-                    .GetAsync(x => personalidad.CarrerasRecomendadas!.Select(c => c.IdCarrera).Contains(x.Id)))
-                .Select(y => y.Nombre).ToList()!;
-            resultado.CarrerasFuturo = (await _unitOfWork.Repository<Carrera>()
-                    .GetAsync(x => personalidad.CarrerasFuturo!.Select(c => c.IdCarrera).Contains(x.Id)))
-                .Select(y => y.Nombre).ToList()!;
-            resultado.CarrerasEvitar = (await _unitOfWork.Repository<Carrera>()
-                    .GetAsync(x => personalidad.CarrerasEvitar!.Select(c => c.IdCarrera).Contains(x.Id)))
-                .Select(y => y.Nombre).ToList()!;
-            resultado.Cualidades = (await _unitOfWork.Repository<Cualidad>()
-                    .GetAsync(x => personalidad.CualidadesXPersonalidad!.Select(c => c.IdCualidad).Contains(x.Id)))
-                .Select(y => y.Caracteristica).ToList()!;
+            resultado.CarrerasRecomendadas = personalidad.Recomendadas!.Split(',');
+            resultado.CarrerasFuturo = personalidad.Futuro!.Split(',');
+            resultado.CarrerasEvitar = personalidad.Evitar!.Split(',');
+                
+            // resultado.CarrerasRecomendadas = (await _unitOfWork.Repository<Carrera>()
+            //         .GetAsync(x => personalidad.CarrerasRecomendadas!.Select(c => c.IdCarrera).Contains(x.Id)))
+            //     .Select(y => y.Nombre).ToList()!;
+            // resultado.CarrerasFuturo = (await _unitOfWork.Repository<Carrera>()
+            //         .GetAsync(x => personalidad.CarrerasFuturo!.Select(c => c.IdCarrera).Contains(x.Id)))
+            //     .Select(y => y.Nombre).ToList()!;
+            // resultado.CarrerasEvitar = (await _unitOfWork.Repository<Carrera>()
+            //         .GetAsync(x => personalidad.CarrerasEvitar!.Select(c => c.IdCarrera).Contains(x.Id)))
+            //     .Select(y => y.Nombre).ToList()!;
+            // resultado.Cualidades = (await _unitOfWork.Repository<Cualidad>()
+            //         .GetAsync(x => personalidad.CualidadesXPersonalidad!.Select(c => c.IdCualidad).Contains(x.Id)))
+            //     .Select(y => y.Caracteristica).ToList()!;
         }
 
         return results;
