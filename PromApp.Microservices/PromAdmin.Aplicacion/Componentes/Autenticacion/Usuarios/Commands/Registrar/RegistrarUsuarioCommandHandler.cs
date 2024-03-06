@@ -33,6 +33,7 @@ public class RegistrarUsuarioCommandHandler : IRequestHandler<RegistrarUsuarioCo
             Email = request.Email,
             UserName = request.Email
         };
+        usuario.FechaCreacion = DateTime.Now;
 
         var result = await _userManager.CreateAsync(usuario, request.Contrasena!);
 

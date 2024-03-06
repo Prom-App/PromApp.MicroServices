@@ -16,6 +16,7 @@ public class Usuario : IdentityUser
     public int? IdNacionalidad2 { get; set; }
     public int? IdAvatar { get; set; }
     public string? GradoEscolar { get; set; }
+    public DateTime FechaCreacion { get; set; }
     public virtual Avatar? Avatar { get; set; }
     public virtual ICollection<Contacto>? Contactos { get; set; }
     public virtual Ciudad? Ciudad { get; set; }

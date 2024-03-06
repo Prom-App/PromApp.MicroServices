@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PromAdmin.Infraestructura.Persistencia.Context;
 
 #nullable disable
 
-namespace PromAdmin.Infraestructura.Persistencia.Migraciones
+namespace PromAdmin.Infraestructura.Migrations
 {
     [DbContext(typeof(PromDbContext))]
-    partial class PromDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240306024751_Changing_Escolaridad_from_int_to_string")]
+    partial class Changing_Escolaridad_from_int_to_string
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1777,9 +1780,6 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FechaNacimiento")
                         .HasColumnType("datetime2");
