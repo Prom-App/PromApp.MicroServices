@@ -5,6 +5,8 @@ using PromAdmin.Core.Componentes.Ciudades.Commands.CrearCiudad;
 using PromAdmin.Core.Componentes.Ciudades.Dtos;
 using PromAdmin.Core.Componentes.Colegios.Dtos;
 using PromAdmin.Core.Componentes.Departamentos.Dtos;
+using PromAdmin.Core.Componentes.Eventos.Commands.CrearEvento;
+using PromAdmin.Core.Componentes.Eventos.Dtos;
 using PromAdmin.Core.Componentes.Generos.Dtos;
 using PromAdmin.Core.Componentes.Nacionalidades.Commands.CrearNacionalidad;
 using PromAdmin.Core.Componentes.Nacionalidades.Dtos;
@@ -42,5 +44,8 @@ public class PerfilMapeo : Profile
         CreateMap<Ciudad, CiudadResponse>();
 
         CreateMap<MBTIResultado, ResultadoMBTIResponse>();
+        
+        CreateMap<CrearEventoCommand, Evento>();
+        CreateMap<Evento, EventoResponse>();
     }
 }

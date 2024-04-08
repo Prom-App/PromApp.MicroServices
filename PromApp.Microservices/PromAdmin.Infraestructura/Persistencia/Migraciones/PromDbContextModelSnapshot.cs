@@ -846,6 +846,53 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                     b.ToTable("Departamento", (string)null);
                 });
 
+            modelBuilder.Entity("PromAdmin.Dominio.Entidades.Evento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CreadoPor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaEvento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModificadoPor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Titulo")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UrlImagen")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UrlReunion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Titulo", "FechaEvento")
+                        .IsUnique()
+                        .HasFilter("[Titulo] IS NOT NULL");
+
+                    b.ToTable("Evento", (string)null);
+                });
+
             modelBuilder.Entity("PromAdmin.Dominio.Entidades.Genero", b =>
                 {
                     b.Property<int>("Id")

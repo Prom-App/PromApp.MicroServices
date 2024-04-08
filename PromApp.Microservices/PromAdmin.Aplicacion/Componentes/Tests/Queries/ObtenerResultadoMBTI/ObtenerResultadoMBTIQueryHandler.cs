@@ -50,7 +50,7 @@ public class
                 IdTestXUsuario = resultado.Id,
                 Respuestas = await _unitOfWork.Repository<RespuestaXTest>()
                     .GetAsync(x => x.IdTestUsuario == resultado.Id)
-            });
+            }, cancellationToken);
         }
 
         resultadosMBTI = await _unitOfWork.Repository<MBTIResultado>()

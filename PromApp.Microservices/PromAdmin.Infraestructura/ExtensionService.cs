@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using PromAdmin.Core.Interfaces;
+using PromAdmin.Core.Interfaces.Almacenamiento;
 using PromAdmin.Core.Interfaces.Negocio;
 using PromAdmin.Core.Interfaces.Seguridad;
 using PromAdmin.Core.Modelos.ExternalApis;
@@ -17,6 +18,7 @@ using PromAdmin.Infraestructura.Compartido.Utilidades;
 using PromAdmin.Infraestructura.Persistencia.Context;
 using PromAdmin.Infraestructura.Persistencia.Inicializacion;
 using PromAdmin.Infraestructura.Persistencia.Repositorios;
+using PromAdmin.Infraestructura.Servicios.Almacenamiento;
 using PromAdmin.Infraestructura.Servicios.Negocio;
 using PromAdmin.Infraestructura.Servicios.Seguridad;
 
@@ -33,11 +35,13 @@ public static class ExtensionService
         services.AddTransient<IAutenticacionService, AutenticacionService>();
         
         services.AddScoped<ITestService, TestService>();
+        services.AddScoped<IAzureStorageService, AzureStorageService>();
 
         services.AddTransient<IUnitOfWork, UnitOfWork>();
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
         services.Configure<GoogleSettings>(configuration.GetSection("GoogleSettings"));
+        services.Configure<AzureSettings>(configuration.GetSection("AzureSettings"));
         services.Configure<List<MBTIQualifyModel>>(configuration.GetSection("MBTI-Qualify-Model"));
 
         return services;

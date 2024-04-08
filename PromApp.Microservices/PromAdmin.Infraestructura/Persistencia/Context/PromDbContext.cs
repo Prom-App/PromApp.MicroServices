@@ -84,47 +84,44 @@ public class PromDbContext : IdentityDbContext<Usuario>
     public virtual DbSet<CarreraRecomendadaXPersonalidad>? CarrerasRecomendads { get; set; }
     public virtual DbSet<CarreraFuturoXPersonalidad>? CarrerasFuturo { get; set; }
     public virtual DbSet<CarreraEvitarXPersonalidad>? CarrerasEvitar { get; set; }
+    public virtual DbSet<Evento>? Eventos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<Actitud>(e =>
+        builder.Entity<Actitud>(e => { e.ToTable("Actitud").HasIndex(x => x.NombreActitud).IsUnique(); });
+        builder.Entity<Habilidad>(e => { e.ToTable("Habilidad").HasIndex(x => x.NombreHabilidad).IsUnique(); });
+        builder.Entity<Interes>(e => { e.ToTable("Interes").HasIndex(x => x.NombreInteres).IsUnique(); });
+
+        builder.Entity<Evento>(e =>
         {
-            e.ToTable("Actitud").HasIndex(x => x.NombreActitud).IsUnique();
-        });
-        builder.Entity<Habilidad>(e =>
-        {
-            e.ToTable("Habilidad").HasIndex(x => x.NombreHabilidad).IsUnique();
-        });
-        builder.Entity<Interes>(e =>
-        {
-            e.ToTable("Interes").HasIndex(x => x.NombreInteres).IsUnique();
+            e.ToTable("Evento").HasIndex(x => new { x.Titulo, x.FechaEvento }).IsUnique();
         });
 
         builder.Entity<ActitudXCarrera>(e =>
         {
             e.HasKey(x => new { x.IdActitud, x.IdCarrera });
             e.ToTable("ActitudesXCarrera");
-            e.HasOne(d => d.Carrera).WithMany(c=>c.ActitudesXCarrera)
+            e.HasOne(d => d.Carrera).WithMany(c => c.ActitudesXCarrera)
                 .HasForeignKey(c => c.IdCarrera).OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(d => d.Actitud).WithMany(k=>k.ActitudesXCarrera)
+            e.HasOne(d => d.Actitud).WithMany(k => k.ActitudesXCarrera)
                 .HasForeignKey(x => x.IdActitud).OnDelete(DeleteBehavior.Cascade);
         });
         builder.Entity<HabilidadXCarrera>(e =>
         {
             e.HasKey(x => new { x.IdHabilidad, x.IdCarrera });
             e.ToTable("HabilidadesXCarrera");
-            e.HasOne(d => d.Carrera).WithMany(c=>c.HabilidadesXCarrera)
+            e.HasOne(d => d.Carrera).WithMany(c => c.HabilidadesXCarrera)
                 .HasForeignKey(c => c.IdCarrera).OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(d => d.Habilidad).WithMany(k=>k.HabilidadesXCarreras)
+            e.HasOne(d => d.Habilidad).WithMany(k => k.HabilidadesXCarreras)
                 .HasForeignKey(x => x.IdHabilidad).OnDelete(DeleteBehavior.Cascade);
         });
         builder.Entity<InteresXCarrera>(e =>
         {
             e.HasKey(x => new { x.IdInteres, x.IdCarrera });
             e.ToTable("InteresesXCarrera");
-            e.HasOne(d => d.Carrera).WithMany(c=>c.InteresesXCarerra)
+            e.HasOne(d => d.Carrera).WithMany(c => c.InteresesXCarerra)
                 .HasForeignKey(c => c.IdCarrera).OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(d => d.Interes).WithMany(k=>k.InteresesXCarrera)
+            e.HasOne(d => d.Interes).WithMany(k => k.InteresesXCarrera)
                 .HasForeignKey(x => x.IdInteres).OnDelete(DeleteBehavior.Cascade);
         });
         builder.Entity<CarreraEvitarXPersonalidad>(e =>
@@ -237,7 +234,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
         {
             e.HasKey(x => new { x.IdCualidad, x.IdPersonalidad });
             e.ToTable("CualidadXPersonalidad");
-            e.HasOne(d => d.Cualidad).WithMany(k=>k.CualidadesXPersonalidad)
+            e.HasOne(d => d.Cualidad).WithMany(k => k.CualidadesXPersonalidad)
                 .HasForeignKey(c => c.IdCualidad).OnDelete(DeleteBehavior.Cascade);
             e.HasOne(d => d.Personalidad).WithMany(k => k.CualidadesXPersonalidad)
                 .HasForeignKey(c => c.IdPersonalidad).OnDelete(DeleteBehavior.Cascade);
