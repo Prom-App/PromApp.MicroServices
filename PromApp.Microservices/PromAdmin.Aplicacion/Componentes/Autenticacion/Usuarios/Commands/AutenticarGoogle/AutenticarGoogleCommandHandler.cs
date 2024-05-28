@@ -4,15 +4,15 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using PromAdmin.Core.Componentes.Autenticacion.Usuarios.Dtos;
-using PromAdmin.Core.Exceptions;
 using PromAdmin.Core.Interfaces;
 using PromAdmin.Core.Interfaces.Seguridad;
+using PromAdmin.Core.Modelos;
 using PromAdmin.Core.Modelos.ExternalApis;
 using PromAdmin.Dominio.Entidades;
 
 namespace PromAdmin.Core.Componentes.Autenticacion.Usuarios.Commands.AutenticarGoogle;
 
-public class AutenticarGoogleCommandHandler : IRequestHandler<AutenticarGoogleCommand, AutenticarResponse>
+public class AutenticarGoogleCommandHandler : IRequestHandler<AutenticarGoogleCommand, BaseApiResponse<AutenticarResponse>>
 {
     private readonly UserManager<Usuario> _userManager;
     private readonly IAutenticacionService _autenticacionService;
@@ -29,8 +29,12 @@ public class AutenticarGoogleCommandHandler : IRequestHandler<AutenticarGoogleCo
         _googleSettings = googleSettings.Value;
     }
 
-    public async Task<AutenticarResponse> Handle(AutenticarGoogleCommand request, CancellationToken cancellationToken)
+    public async Task<BaseApiResponse<AutenticarResponse>> Handle(AutenticarGoogleCommand request, CancellationToken cancellationToken)
     {
+        var response = new BaseApiResponse<AutenticarResponse>()
+        {
+            IsSuccess = false
+        };
         var settings = new GoogleJsonWebSignature.ValidationSettings
         {
             Audience = new List<string>
@@ -53,13 +57,16 @@ public class AutenticarGoogleCommandHandler : IRequestHandler<AutenticarGoogleCo
 
         var roles = await _userManager.GetRolesAsync(usuario);
         usuario.Avatar = await _unitOfWork.Repository<Avatar>().GetEntityAsync(x => x.Id == usuario!.IdAvatar);
-        return new AutenticarResponse
+
+        response.Data = new AutenticarResponse
         {
             Id = usuario.Id,
             Email = usuario.Email,
             Token = await _autenticacionService.CrearToken(usuario, roles),
             Roles = roles
         };
+        response.IsSuccess = true;
+        return response;
     }
 
     private async Task CrearUsuarioGoogle(string email, string token)
