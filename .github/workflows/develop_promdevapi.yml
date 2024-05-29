@@ -24,7 +24,7 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
-        working-directory: .\PromAdmin.API\PromAdmin.API.csproj
+        working-directory: PromAdmin.API\PromAdmin.API.csproj
 
 
       - name: dotnet publish
