@@ -23,7 +23,7 @@ jobs:
           include-prerelease: true
 
       - name: List files in the working directory
-        run: dir ./PromApp.Microservices/PromApp.Microservices/PromAdmin.API
+        run: dir ./PromApp.Microservices/PromAdmin.API
 
       
           
