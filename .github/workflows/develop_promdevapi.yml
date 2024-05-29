@@ -28,10 +28,10 @@ jobs:
       
           
       - name: Build with dotnet
-        run: dotnet build --configuration Release ./PromApp.Microservices/PromApp.Microservices/PromAdmin.API/PromAdmin.API.csproj
+        run: dotnet build --configuration Release ./PromApp.Microservices/PromAdmin.API/PromAdmin.API.csproj
 
       - name: dotnet publish
-        run: dotnet publish ./PromApp.Microservices/PromApp.Microservices/PromAdmin.API/PromAdmin.API.csproj -c Release -o ${{github.workspace}}/myapp
+        run: dotnet publish ./PromApp.Microservices/PromAdmin.API/PromAdmin.API.csproj -c Release -o ${{github.workspace}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
