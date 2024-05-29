@@ -2,13 +2,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PromAdmin.Core.Componentes.Tests.Commands.GuardarResultadosTest;
-using PromAdmin.Core.Componentes.Tests.Queries.GenerarResultadoPDF;
 using PromAdmin.Core.Componentes.Tests.Queries.ObtenerResultadoMBTI;
 using PromAdmin.Core.Componentes.Tests.Queries.TestPorNombre;
 using PromAdmin.Core.Eventos.MBTI;
 using PromAdmin.Core.Interfaces;
 using PromAdmin.Dominio.Entidades;
-using PromAdmin.Utilidades.Servicios;
 
 namespace PromAdmin.API.Controllers;
 
@@ -58,11 +56,5 @@ public class TestController : ControllerBase
     {
         var query = new ObtenerResultadoMBTIQuery();
         return Ok(await _mediator.Send(query));
-    }
-
-    [HttpGet("descargarPDF", Name = "DescargarPDF")]
-    public async Task<IActionResult> DescargarPDF(GenerarResultadoPdfQuery query)
-    {
-        return await _mediator.Send(query);
     }
 }

@@ -28,6 +28,7 @@
     <ItemGroup>
       <ProjectReference Include="..\PromAdmin.Aplicacion\PromAdmin.Aplicacion.csproj" />
       <ProjectReference Include="..\PromAdmin.Dominio\PromAdmin.Dominio.csproj" />
+      <ProjectReference Include="..\PromApp.Mensajeria.Infraestructura\PromApp.Mensajeria.Infraestructura.csproj" />
     </ItemGroup>
     
     <ItemGroup>

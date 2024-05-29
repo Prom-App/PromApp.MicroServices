@@ -10,6 +10,7 @@
     <ItemGroup>
       <ProjectReference Include="..\PromAdmin.Dominio\PromAdmin.Dominio.csproj" />
       <ProjectReference Include="..\PromAdmin.Utilidades\PromAdmin.Utilidades.csproj" />
+      <ProjectReference Include="..\PromApp.Mensajeria.Aplicacion\PromApp.Mensajeria.Aplicacion.csproj" />
     </ItemGroup>
 
     <ItemGroup>

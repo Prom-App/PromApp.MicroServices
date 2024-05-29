@@ -37,6 +37,18 @@ identityBuilder.AddSignInManager<SignInManager<Usuario>>();
 builder.Services.TryAddSingleton<ISystemClock, SystemClock>();
 builder.Services.AddDataProtection();
 
+builder.Services.Configure<IdentityOptions>(opt =>
+{
+    opt.Password = new PasswordOptions()
+    {
+        RequireDigit = true,
+        RequireLowercase = true,
+        RequireNonAlphanumeric = false,
+        RequiredLength = 8,
+        RequireUppercase = true
+    };
+});
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddCors(opt =>

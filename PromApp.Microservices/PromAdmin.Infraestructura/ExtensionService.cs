@@ -21,6 +21,8 @@ using PromAdmin.Infraestructura.Persistencia.Repositorios;
 using PromAdmin.Infraestructura.Servicios.Almacenamiento;
 using PromAdmin.Infraestructura.Servicios.Negocio;
 using PromAdmin.Infraestructura.Servicios.Seguridad;
+using PromApp.Mensajeria.Aplicacion.Interfaces;
+using PromApp.Mensajeria.Infraestructura.Email;
 
 namespace PromAdmin.Infraestructura;
 
@@ -36,6 +38,7 @@ public static class ExtensionService
         
         services.AddScoped<ITestService, TestService>();
         services.AddScoped<IAzureStorageService, AzureStorageService>();
+        services.AddScoped<IEmailService, EmailService>();
 
         services.AddTransient<IUnitOfWork, UnitOfWork>();
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
