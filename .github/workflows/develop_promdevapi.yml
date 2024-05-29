@@ -17,14 +17,14 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.x'
           include-prerelease: true
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
-        working-directory: ./PromApp.Microservices
+        working-directory: ./PromApp.Microservices/PromApp.Microservices/PromAdmin.API/PromAdmin.API.csproj
 
 
       - name: dotnet publish
