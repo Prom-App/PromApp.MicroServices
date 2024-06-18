@@ -71,13 +71,17 @@ public class GuardarResultadosTestCommandHandler : IRequestHandler<GuardarResult
             {
                 testXUsuario.Finalizado = true;
                 await _unitOfWork.Repository<TestXUsuario>().UpdateAsync(testXUsuario);
-                
-                _ = _mediator.Send(new CalcularMBTIEvent
+
+                if (testXUsuario.IdTest == (await _unitOfWork.Repository<Test>()
+                        .GetEntityAsync(x => x.NombreTest == "Personalidad")).Id)
                 {
-                    IdUsuario = usuario!.Id,
-                    IdTestXUsuario = testXUsuario.IdTest,
-                    Respuestas = respuestasTest
-                }, cancellationToken);
+                    _ = _mediator.Send(new CalcularMBTIEvent
+                    {
+                        IdUsuario = usuario!.Id,
+                        IdTestXUsuario = testXUsuario.IdTest,
+                        Respuestas = respuestasTest
+                    }, cancellationToken);
+                }
             }
 
             var resp = new
