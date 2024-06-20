@@ -57,15 +57,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_87940D04BD2845B3B2EFD135106B575A }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_207A8AAC8A264C83B6F4FF23B461EDAE }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_FB63940D826643129B639C9F66D8F94E }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A106D8941BB94E8186F4E05221F59CAA }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_AE69AE537B804FB0A3A2F13CBCC6A225 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_52C1CAB8EF164EFD9973E8D8E7F7067A }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'promDevApi'
+          app-name: 'apidevprom'
           slot-name: 'Production'
           package: .
           
