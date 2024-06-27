@@ -85,13 +85,20 @@ public class AutenticarGoogleCommandHandler : IRequestHandler<AutenticarGoogleCo
             rolInicial = ListaRoles.Administrador.ToString();
         else
         {
-            rolInicial = token.ToUpper() switch
+            if (token == null)
             {
-                "FAMILIAR" => ListaRoles.Tutor.ToString(),
-                "PREPARADOR" => ListaRoles.Preparador.ToString(),
-                "CONSEJERO" => ListaRoles.Consejero.ToString(),
-                _ => ListaRoles.Freemium.ToString()
-            };
+                rolInicial = ListaRoles.Freemium.ToString();
+            }
+            else
+            {
+                rolInicial = token.ToUpper() switch
+                {
+                    "FAMILIAR" => ListaRoles.Tutor.ToString(),
+                    "PREPARADOR" => ListaRoles.Preparador.ToString(),
+                    "CONSEJERO" => ListaRoles.Consejero.ToString(),
+                    _ => ListaRoles.Freemium.ToString()
+                };
+            }
         }
 
         await _userManager.AddToRoleAsync(usuario, rolInicial);
