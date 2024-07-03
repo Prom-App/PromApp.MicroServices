@@ -26,7 +26,7 @@ public class DatosUsuariosQueryHandler : IRequestHandler<DatosUsuariosQuery, byt
         };
 
         var usuarios = await _unitOfWork.Repository<Usuario>()
-            .GetAsync(null, x => x.OrderBy(y => y.Nombre), includes);
+            .GetAsync(null, x => x.OrderByDescending(y => y.FechaCreacion), includes);
 
 
         var preguntas = await _unitOfWork.Repository<Pregunta>().GetAsync(x => x.IdTest == 1);
@@ -51,6 +51,7 @@ public class DatosUsuariosQueryHandler : IRequestHandler<DatosUsuariosQuery, byt
                     ["Telefono"] = user.Telefono,
                     ["Colegio"] = user.Colegio is null ? "" : user.Colegio!.Nombre,
                     ["GradoEscolar"] = user.GradoEscolar,
+                    ["FechaCreacion"] = user.FechaCreacion,
                     ["FechaOnboarding"] = resultOnBoarding is null
                         ? ""
                         : resultOnBoarding!.FirstOrDefault()!.FechaCreacion.ToString(),
