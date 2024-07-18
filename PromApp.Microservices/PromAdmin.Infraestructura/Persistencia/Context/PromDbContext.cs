@@ -375,6 +375,7 @@ public class PromDbContext : IdentityDbContext<Usuario>
         {
             e.Property(x => x.Id).HasMaxLength(36);
             e.Property(x => x.GradoEscolar).HasMaxLength(36);
+            e.Property(x => x.CondicionEspecial).HasMaxLength(100);
             e.Property(x => x.NormalizedUserName).HasMaxLength(90);
             e.HasOne(u => u.Ciudad).WithMany(c => c.Usuarios)
                 .HasForeignKey(x => x.IdCiudad);

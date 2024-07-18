@@ -51,6 +51,7 @@ public class DatosUsuariosQueryHandler : IRequestHandler<DatosUsuariosQuery, byt
                     ["Telefono"] = user.Telefono,
                     ["Colegio"] = user.Colegio is null ? "" : user.Colegio!.Nombre,
                     ["GradoEscolar"] = user.GradoEscolar,
+                    ["CondicionEspecial"] = user.CondicionEspecial,
                     ["FechaCreacion"] = user.FechaCreacion,
                     ["FechaOnboarding"] = resultOnBoarding is null
                         ? ""

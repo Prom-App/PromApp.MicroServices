@@ -18,4 +18,5 @@ public class ActualizarUsuarioCommand : IRequest<AutenticarResponse>
     public int? IdNacionalidad { get; set; }
     public int? IdNacionalidad2 { get; set; }
     public string? GradoEscolar { get; set; }
+    public string? CondicionEspecial { get; set; }
 }

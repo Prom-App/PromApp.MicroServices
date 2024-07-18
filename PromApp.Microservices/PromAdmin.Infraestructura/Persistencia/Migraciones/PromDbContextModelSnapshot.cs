@@ -1815,6 +1815,10 @@ namespace PromAdmin.Infraestructura.Persistencia.Migraciones
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CondicionEspecial")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Direccion")
                         .HasColumnType("nvarchar(max)");
 
